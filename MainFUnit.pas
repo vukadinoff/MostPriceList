@@ -47,6 +47,10 @@ type
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
+  public
+    procedure Notifier_RefreshAll;
+    procedure Notifier_PrintReport;
+    procedure Notifier_ExportReport(const aExportFmt:Integer);
 end;
 
 var
@@ -87,17 +91,32 @@ end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
 begin
-  FrameMostProducts.Notifier_RefreshAll;
+  Notifier_RefreshAll;
 end;
 
 procedure TMainF.actPrintExecute(Sender: TObject);
 begin
-  FrameMostProducts.Notifier_PrintReport;
+  Notifier_PrintReport;
 end;
 
 procedure TMainF.actExportExecute(Sender: TObject);
 begin
-  FrameMostProducts.Notifier_ExportReport(cUnknownID);
+  Notifier_ExportReport(cUnknownID);
+end;
+
+procedure TMainF.Notifier_PrintReport;
+begin
+  inherited;
+end;
+
+procedure TMainF.Notifier_RefreshAll;
+begin
+//
+end;
+
+procedure TMainF.Notifier_ExportReport(const aExportFmt: Integer);
+begin
+  inherited;
 end;
 
 end.
