@@ -10,21 +10,21 @@ File_7=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Source
 File_8=SourceModule,'D:\R&D\DMS\MegalanDMS\src_Common\CommonUtilsUnit.pas',0,1,408,5,424,0,0
 
 [Modules]
-Module0=D:\MostPriceList\MostPriceListProject.dpr
-Module1=D:\MostPriceList\MainFUnit.pas
+Module0=D:\MostPriceList\MainFUnit.pas
+Module1=D:\MostPriceList\MostPriceListProject.dpr
 Module2=D:\MostPriceList\FrameMostProductsUnit.pas
 Module3=D:\MostPriceList\FrameMostCategoryUnit.pas
 Count=4
 EditWindowCount=1
 
-[D:\MostPriceList\MostPriceListProject.dpr]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
 [D:\MostPriceList\MainFUnit.pas]
 ModuleType=SourceModule
 FormState=1
+FormOnTop=0
+
+[D:\MostPriceList\MostPriceListProject.dpr]
+ModuleType=SourceModule
+FormState=0
 FormOnTop=0
 
 [D:\MostPriceList\FrameMostProductsUnit.pas]
@@ -43,7 +43,7 @@ FormOnTop=0
 
 [EditWindow0]
 ViewCount=4
-CurrentView=3
+CurrentView=0
 View0=0
 View1=1
 View2=2
@@ -65,35 +65,35 @@ LeftPanelSize=140
 LeftPanelClients=CodeExplorer@EditWindow0
 LeftPanelData=000004000000000000000000000000000000000000000000000100000000000000000C000000436F64654578706C6F726572FFFFFFFF
 RightPanelSize=0
-BottomPanelSize=116
+BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=000004000000000000000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D6573736167655669657700000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
 
 [View0]
 Module=D:\MostPriceList\MainFUnit.pas
-CursorX=17
-CursorY=52
-TopLine=51
+CursorX=57
+CursorY=106
+TopLine=71
 LeftCol=1
 
 [View1]
-Module=D:\MostPriceList\FrameMostProductsUnit.pas
+Module=D:\MostPriceList\MostPriceListProject.dpr
 CursorX=1
-CursorY=1
+CursorY=14
 TopLine=1
 LeftCol=1
 
 [View2]
-Module=D:\MostPriceList\FrameMostCategoryUnit.pas
+Module=D:\MostPriceList\FrameMostProductsUnit.pas
 CursorX=1
-CursorY=1
-TopLine=1
+CursorY=20
+TopLine=4
 LeftCol=1
 
 [View3]
-Module=D:\MostPriceList\MostPriceListProject.dpr
-CursorX=83
-CursorY=7
+Module=D:\MostPriceList\FrameMostCategoryUnit.pas
+CursorX=27
+CursorY=1
 TopLine=1
 LeftCol=1
 
@@ -166,7 +166,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
-SelectedItem=Caption
+SelectedItem=MultiThreaded
 ExpandedItems=
 HiddenCategories=
 
@@ -225,18 +225,18 @@ State=0
 Left=0
 Top=12
 Width=140
-Height=672
+Height=791
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=140
-ClientHeight=672
+ClientHeight=791
 TBDockHeight=305
 LRDockWidth=140
 Dockable=1
 
 [MessageView@EditWindow0]
 Create=1
-Visible=1
+Visible=0
 State=0
 Left=12
 Top=0
