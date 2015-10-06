@@ -1,8 +1,8 @@
 object MainF: TMainF
   Left = 192
   Top = 124
-  Width = 1142
-  Height = 656
+  Width = 1147
+  Height = 658
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,35 +16,43 @@ object MainF: TMainF
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object pnlG1G2: TPanel
+  object pnlG1: TPanel
     Left = 0
     Top = 42
-    Width = 1126
+    Width = 569
     Height = 576
-    Align = alClient
-    Caption = 'pnlG1G2'
     TabOrder = 0
     TabStop = True
   end
+  object pnlG2: TPanel
+    Left = 569
+    Top = 42
+    Width = 561
+    Height = 577
+    TabOrder = 5
+    TabStop = True
+  end
   object AL1: TActionList
-    Images = ilImages
     Left = 24
     Top = 80
-    object actClose: TAction
-      Caption = 'actClose'
-      ImageIndex = 11
-    end
     object actRefresh: TAction
       Caption = 'actRefresh'
       ImageIndex = 33
+      OnExecute = actRefreshExecute
     end
     object actPrint: TAction
       Caption = 'actPrint'
       ImageIndex = 4
+      OnExecute = actPrintExecute
     end
     object actExport: TAction
       Caption = #1045#1082#1089#1087#1086#1088#1090'...'
       ImageIndex = 81
+      OnExecute = actExportExecute
+    end
+    object actOpen: TAction
+      Caption = 'actOpen'
+      OnExecute = actOpenExecute
     end
   end
   object BM1: TdxBarManager
@@ -60,7 +68,6 @@ object MainF: TMainF
       2)
     Categories.Visibles = (
       True)
-    ImageOptions.Images = ilImages
     ImageOptions.LargeImages = ilImages
     PopupMenuLinks = <>
     UseSystemFont = True
@@ -88,7 +95,12 @@ object MainF: TMainF
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'btnClose'
+          ItemName = 'dxBarLargeButton1'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnOpen'
         end
         item
           BeginGroup = True
@@ -111,13 +123,6 @@ object MainF: TMainF
       Visible = True
       WholeRow = False
     end
-    object btnClose: TdxBarLargeButton
-      Action = actClose
-      Caption = #1047#1072#1090#1074#1086#1088#1080
-      Category = 0
-      SyncImageIndex = False
-      ImageIndex = 11
-    end
     object btnRefresh: TdxBarLargeButton
       Action = actRefresh
       Caption = 'Refresh...'
@@ -134,6 +139,26 @@ object MainF: TMainF
       Action = actExport
       Category = 0
     end
+    object btnOpen: TdxBarLargeButton
+      Action = actOpen
+      Caption = 'Open...'
+      Category = 0
+      LargeImageIndex = 109
+      SyncImageIndex = False
+      ImageIndex = -1
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Caption = 'Exit...'
+      Category = 0
+      Hint = 'Exit'
+      Visible = ivAlways
+      LargeImageIndex = 11
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'eXtensible Markup Language (*.xml)|*.xml'
+    Left = 176
+    Top = 80
   end
   object ilImages: TImageList
     Left = 120
@@ -4501,5 +4526,9 @@ object MainF: TMainF
       C001C001E3CF0000C001C001C7E78001C001C0018FFB8001C003C0001FFFC003
       C007C0003FFFE007C00FC009FFFFF81F00000000000000000000000000000000
       000000000000}
+  end
+  object PrintDialog: TPrintDialog
+    Left = 239
+    Top = 81
   end
 end
