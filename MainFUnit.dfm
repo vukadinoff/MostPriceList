@@ -33,8 +33,7 @@ object MainF: TMainF
     TabStop = True
   end
   object AL1: TActionList
-    Left = 24
-    Top = 80
+    Left = 408
     object actRefresh: TAction
       Caption = 'actRefresh'
       ImageIndex = 33
@@ -54,6 +53,10 @@ object MainF: TMainF
       Caption = 'actOpen'
       OnExecute = actOpenExecute
     end
+    object actExit: TAction
+      Caption = 'actExit'
+      OnExecute = actExitExecute
+    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -71,8 +74,7 @@ object MainF: TMainF
     ImageOptions.LargeImages = ilImages
     PopupMenuLinks = <>
     UseSystemFont = True
-    Left = 72
-    Top = 80
+    Left = 448
     DockControlHeights = (
       0
       0
@@ -95,7 +97,7 @@ object MainF: TMainF
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton1'
+          ItemName = 'btnExit'
         end
         item
           BeginGroup = True
@@ -130,13 +132,14 @@ object MainF: TMainF
     end
     object btnPrint: TdxBarLargeButton
       Action = actPrint
-      Caption = #1055#1077#1095#1072#1090'...'
+      Caption = 'Print...'
       Category = 0
       SyncImageIndex = False
       ImageIndex = 4
     end
     object btnExport: TdxBarLargeButton
       Action = actExport
+      Caption = 'Export...'
       Category = 0
     end
     object btnOpen: TdxBarLargeButton
@@ -147,22 +150,19 @@ object MainF: TMainF
       SyncImageIndex = False
       ImageIndex = -1
     end
-    object dxBarLargeButton1: TdxBarLargeButton
+    object btnExit: TdxBarLargeButton
+      Action = actExit
       Caption = 'Exit...'
       Category = 0
-      Hint = 'Exit'
-      Visible = ivAlways
       LargeImageIndex = 11
     end
   end
   object OpenDialog: TOpenDialog
     Filter = 'eXtensible Markup Language (*.xml)|*.xml'
-    Left = 176
-    Top = 80
+    Left = 544
   end
   object ilImages: TImageList
-    Left = 120
-    Top = 80
+    Left = 488
     Bitmap = {
       494C010180008100040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001002000001002000000000000010
@@ -4528,7 +4528,13 @@ object MainF: TMainF
       000000000000}
   end
   object PrintDialog: TPrintDialog
-    Left = 239
-    Top = 81
+    Left = 607
+  end
+  object dbMostPriceList: TmySQLDatabase
+    ConnectOptions = []
+    Params.Strings = (
+      'Port=3306'
+      'TIMEOUT=30')
+    Left = 347
   end
 end
