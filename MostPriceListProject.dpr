@@ -3,7 +3,8 @@ program MostPriceListProject;
 uses
   Forms,
   MainFUnit in 'MainFUnit.pas' {MainF},
-  FrameMostPriceList in 'FrameMostPriceList.pas' {FrameMostPriceListF: TFrame};
+  FrameMostCategoryUnit in 'FrameMostCategoryUnit.pas' {FrameMostCategory: TFrame},
+  FrameMostProductsUnit in 'FrameMostProductsUnit.pas' {FrameMostProducts: TFrame};
 
 {$R *.res}
 
