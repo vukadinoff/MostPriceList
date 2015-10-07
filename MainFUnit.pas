@@ -79,6 +79,8 @@ uses
 
 procedure TMainF.FormCreate(Sender: TObject);
 begin
+  if not (OpenDatabase) then
+    Exit;// If Open Database process fail then application terminate
 
   FrameMostCategory := TFrameMostCategory.Create(MainF);
   FrameMostCategory.Parent := pnlG1;
@@ -88,10 +90,6 @@ begin
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
 
-
-
-  if not (OpenDatabase) then
-    Exit;// If Open Database process fail then application terminate
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
