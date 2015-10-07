@@ -31,7 +31,7 @@ object MainF: TMainF
     Width = 662
     Height = 650
     Align = alClient
-    TabOrder = 5
+    TabOrder = 4
     TabStop = True
   end
   object AL1: TActionList
@@ -4538,5 +4538,10 @@ object MainF: TMainF
       'Port=3306'
       'TIMEOUT=30')
     Left = 347
+  end
+  object XMLDocument: TXMLDocument
+    Left = 681
+    Top = 1
+    DOMVendorDesc = 'MSXML'
   end
 end
