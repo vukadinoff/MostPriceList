@@ -58,6 +58,8 @@ type
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);
+
+    procedure CatRecChange(RecordID:integer);
 end;
 
 const
@@ -90,6 +92,8 @@ begin
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
 
+  FrameMostCategory.OnCatRecChange:= MainF.CatRecChange;
+  FrameMostCategory.TriggerCatRecEvent(1);
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
@@ -164,6 +168,11 @@ begin
     dbMostPriceList.Open;
     Result := dbMostPriceList.Connected;
   finally end;
+end;
+
+procedure TMainF.CatRecChange(RecordID:integer);
+begin
+  FrameMostProducts.RefreshProducts(RecordID,1);
 end;
 
 end.

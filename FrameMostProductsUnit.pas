@@ -48,7 +48,6 @@ begin
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
 
-  RefreshProducts(1,1.5);
 end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
