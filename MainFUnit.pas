@@ -296,4 +296,9 @@ begin
   end;
 end;
 
+procedure TMainF.CatRecChange(RecordID: integer);
+begin
+  FrameMostProducts.RefreshProducts(RecordID,1);
+end;
+
 end.
