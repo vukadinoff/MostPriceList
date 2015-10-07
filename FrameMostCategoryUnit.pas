@@ -8,7 +8,7 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  mySQLDbTables;
+  mySQLDbTables, dxSkinsCore, dxSkinsDefaultPainters, dxSkinscxPCPainter;
 
 type
    TOnChangeEvent = procedure(RecordID:integer) of object;
