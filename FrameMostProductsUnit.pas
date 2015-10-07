@@ -27,7 +27,7 @@ type
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts(CategoryID,Rate:Integer);
+    procedure RefreshProducts(const CategoryID:Integer;const Rate:Extended);
 end;
 
 implementation
@@ -36,22 +36,44 @@ implementation
 uses
   MainFUnit;
 { TFrameMostProducts }
+const
+  CRLF     = #13#10;
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
+  qrProducts.Database := MainF.dbMostPriceList;
   dsProducts.DataSet:= qrProducts;
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
+
+  RefreshProducts(1,1.5);
 end;
 
-procedure TFrameMostProducts.RefreshProducts(CategoryID,Rate:Integer);
+procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
 const
-  lcSQL= 'call GetGetCatProducts (%s,%s)';
+  lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
+	        'p.name AS ProductName,                               '+CRLF+
+	        'p.price_1 AS Price1,                                 '+CRLF+
+	        'p.price_2 AS Price2,                                 '+CRLF+
+	        'p.price_2*%1:n AS Price2lv,                          '+CRLF+
+	        'p.price_2*%1:n+(p.price_2*%1:n*0.2) AS Price2lvDDS   '+CRLF+
+	        'FROM Products p                                      '+CRLF+
+	        'JOIN Category c ON (c.id = p.category_id)            '+CRLF+
+	        'WHERE c.id = %0:d;                                   ';
 begin
-  qrProducts.SQL.Text:= Format(lcSQL,[CategoryID]);
-  qrProducts.ExecSQL;
+  if MainF.dbMostPriceList.Connected then
+  begin
+    Try
+      qrProducts.Active:= False;
+      qrProducts.SQL.Text:= Format(lcSQL,[CategoryID,Rate]);
+      qrProducts.Active:= True;
+    finally
+    end;
+  end
+  else
+    ShowMessage('Няма връзка с базата данни');
 end;
 
 end.
