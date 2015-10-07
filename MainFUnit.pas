@@ -89,14 +89,17 @@ uses
 
 procedure TMainF.FormCreate(Sender: TObject);
 begin
-  FrameMostProducts := TFrameMostProducts.Create(MainF);
-  FrameMostProducts.Parent := pnlG1;
-
-  FrameMostCategory := TFrameMostCategory.Create(MainF);
-  FrameMostCategory.Parent := pnlG2;
-
   if not (OpenDatabase) then
     Exit;// If Open Database process fail then application terminate
+
+  FrameMostCategory := TFrameMostCategory.Create(MainF);
+  FrameMostCategory.Parent := pnlG1;
+  FrameMostCategory.Align := alClient;
+
+  FrameMostProducts := TFrameMostProducts.Create(MainF);
+  FrameMostProducts.Parent := pnlG2;
+  FrameMostProducts.Align := alClient;
+
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
