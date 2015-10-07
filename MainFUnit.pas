@@ -60,8 +60,7 @@ type
     procedure myQueryExecute(aSQL: string);
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
-    function GetXMLData(fileName: TFileName): TStringList;
-    procedure InsertDataInDB(XMLData: TStringList);
+    procedure GetXMLData(fileName: TFileName);
   public
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
@@ -130,7 +129,7 @@ begin
   begin
     DropTablesFromDB;
     CreateTablesInDB;
-    InsertDataInDB(GetXMLData(OpenDialog.FileName));
+    GetXMLData(OpenDialog.FileName);
   end;
 end;
 
@@ -234,7 +233,7 @@ begin
   myQueryExecute(lcCreateTableProducts);
 end;
 
-function TMainF.GetXMLData(fileName: TFileName): TStringList;
+procedure TMainF.GetXMLData(fileName: TFileName);
 var
   lvNode                : IXMLNode;
   lvsInsertCategoryData : WideString;
@@ -291,11 +290,6 @@ begin
     myQueryExecute(lvsInsertProductData);
     myQueryExecute(lvsInsertCategoryData);
   end;
-end;
-
-procedure TMainF.InsertDataInDB(XMLData: TStringList);
-begin
-//
 end;
 
 end.
