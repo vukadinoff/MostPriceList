@@ -1,8 +1,8 @@
 object MainF: TMainF
   Left = 192
   Top = 124
-  Width = 1147
-  Height = 657
+  Width = 1023
+  Height = 730
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,16 +19,18 @@ object MainF: TMainF
   object pnlG1: TPanel
     Left = 0
     Top = 42
-    Width = 569
-    Height = 576
+    Width = 345
+    Height = 650
+    Align = alLeft
     TabOrder = 0
     TabStop = True
   end
   object pnlG2: TPanel
-    Left = 569
+    Left = 345
     Top = 42
-    Width = 560
-    Height = 576
+    Width = 662
+    Height = 650
+    Align = alClient
     TabOrder = 5
     TabStop = True
   end
