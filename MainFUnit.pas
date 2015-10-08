@@ -42,7 +42,6 @@ type
     PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
     btnRates: TdxBarLargeButton;
-    actRates: TAction;
     Panel2: TPanel;
     cbCurrency: TComboBox;
     lblComboBoxCurrency: TLabel;
@@ -58,10 +57,6 @@ type
     btnExpToHTML: TdxBarButton;
     btnExpToXML: TdxBarButton;
     btnExpToTXT: TdxBarButton;
-    actExpToExcel: TAction;
-    actExpToHTML: TAction;
-    actExpToXML: TAction;
-    actExpToTXT: TAction;
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -179,6 +174,7 @@ end;
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
+  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;

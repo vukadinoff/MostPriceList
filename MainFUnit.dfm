@@ -89,18 +89,6 @@ object MainF: TMainF
       Caption = 'actExit'
       OnExecute = actExitExecute
     end
-    object actExpToExcel: TAction
-      Caption = 'actExpToExcel'
-    end
-    object actExpToHTML: TAction
-      Caption = 'actExpToHTML'
-    end
-    object actExpToXML: TAction
-      Caption = 'actExpToXML'
-    end
-    object actExpToTXT: TAction
-      Caption = 'actExpToTXT'
-    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -211,9 +199,9 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Action = actRates
       Caption = 'Rates...'
       Category = 0
+      Visible = ivAlways
       LargeImageIndex = 36
     end
     object dxBarSubItem1: TdxBarSubItem

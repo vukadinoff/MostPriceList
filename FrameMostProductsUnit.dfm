@@ -1,13 +1,13 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
-  Width = 661
+  Width = 620
   Height = 540
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
     Top = 0
-    Width = 661
+    Width = 620
     Height = 540
     Align = alClient
     PopupMenu = G1Popup
@@ -69,6 +69,35 @@ object FrameMostProducts: TFrameMostProducts
     Top = 64
     object N3: TMenuItem
       Caption = '-'
+    end
+  end
+  object Printer1: TdxComponentPrinter
+    CurrentLink = Printer1G1
+    Version = 0
+    Left = 560
+    Top = 64
+    object Printer1G1: TdxGridReportLink
+      Active = True
+      Component = G1
+      PageNumberFormat = pnfNumeral
+      PrinterPage.DMPaper = 9
+      PrinterPage.Footer = 6350
+      PrinterPage.Header = 6350
+      PrinterPage.Margins.Bottom = 12700
+      PrinterPage.Margins.Left = 12700
+      PrinterPage.Margins.Right = 12700
+      PrinterPage.Margins.Top = 12700
+      PrinterPage.PageSize.X = 210000
+      PrinterPage.PageSize.Y = 297000
+      PrinterPage._dxMeasurementUnits_ = 0
+      PrinterPage._dxLastMU_ = 2
+      ReportDocument.CreationDate = 42285.658714120370000000
+      AssignedFormatValues = [fvDate, fvTime, fvPageNumber]
+      OptionsSize.AutoWidth = True
+      OptionsView.Footers = False
+      OptionsView.Caption = False
+      OptionsView.FilterBar = False
+      BuiltInReportLink = True
     end
   end
 end
