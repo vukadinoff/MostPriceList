@@ -1,15 +1,16 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
-  Width = 702
-  Height = 573
+  Width = 661
+  Height = 540
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
     Top = 0
-    Width = 702
-    Height = 573
+    Width = 661
+    Height = 540
     Align = alClient
+    PopupMenu = G1Popup
     TabOrder = 0
     object G1V1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
@@ -55,12 +56,19 @@ object FrameMostProducts: TFrameMostProducts
     end
   end
   object dsProducts: TDataSource
-    DataSet = qrProducts
+    DataSet = qryProducts
     Left = 456
     Top = 64
   end
-  object qrProducts: TmySQLQuery
+  object qryProducts: TmySQLQuery
     Left = 400
     Top = 64
+  end
+  object G1Popup: TPopupMenu
+    Left = 516
+    Top = 64
+    object N3: TMenuItem
+      Caption = '-'
+    end
   end
 end

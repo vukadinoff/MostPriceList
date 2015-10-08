@@ -8,7 +8,7 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid;
+  cxGridDBTableView, cxGrid, Menus;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -16,25 +16,27 @@ type
     G1L1: TcxGridLevel;
     G1: TcxGrid;
     dsProducts: TDataSource;
-    qrProducts: TmySQLQuery;
+    qryProducts: TmySQLQuery;
     G1V1ProductID: TcxGridDBColumn;
     G1V1ProductName: TcxGridDBColumn;
     G1V1Price1: TcxGridDBColumn;
     G1V1Price2: TcxGridDBColumn;
     G1V1Price2lv: TcxGridDBColumn;
     G1V1Price2lvDDS: TcxGridDBColumn;
+    G1Popup: TPopupMenu;
+    N3: TMenuItem;
   private
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts(const CategoryID:Integer;const Rate:Extended);
+    procedure RefreshProducts(const CategoryID:Integer;const Rate:Double);
 end;
 
 implementation
 
 {$R *.dfm}
 uses
-  MainFUnit;
+  MainFUnit,MLDMS_CommonExportsUnit;
 { TFrameMostProducts }
 const
   CRLF     = #13#10;
@@ -42,15 +44,15 @@ const
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
-  qrProducts.Database := MainF.dbMostPriceList;
-  dsProducts.DataSet:= qrProducts;
+  qryProducts.Database := MainF.dbMostPriceList;
+  dsProducts.DataSet:= qryProducts;
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
-
+  TcxGridExportMenuGroup.CreateMenuGroup(G1Popup, N3);
 end;
 
-procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
+procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Double);
 const
   lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
 	        'p.name AS ProductName,                               '+CRLF+
@@ -65,9 +67,9 @@ begin
   if MainF.dbMostPriceList.Connected then
   begin
     Try
-      qrProducts.Active:= False;
-      qrProducts.SQL.Text:= Format(lcSQL,[CategoryID,Rate]);
-      qrProducts.Active:= True;
+      qryProducts.Active:= False;
+      qryProducts.SQL.Text:= Format(lcSQL,[CategoryID,Rate]);
+      qryProducts.Active:= True;
     finally
     end;
   end
