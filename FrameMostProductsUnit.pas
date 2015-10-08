@@ -8,7 +8,8 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, Menus;
+  cxGridDBTableView, cxGriddxSkinsCore, dxSkinsDefaultPainters,
+  dxSkinscxPCPainter, Menus;
 
 type
   TFrameMostProducts = class(TFrame)

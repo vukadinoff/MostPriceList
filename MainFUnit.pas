@@ -13,7 +13,8 @@ uses
   dxSkinsdxRibbonPainter, dxPSCore, dxPScxCommon, dxSkinsCore,
   FrameMostCategoryUnit, FrameMostProductsUnit, DB, mySQLDbTables,
   xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
-  MegalanMySQLConnectionUnit, MySQLBatch;
+  MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter;
 
 
 type
@@ -40,6 +41,12 @@ type
     OpenDialog     : TOpenDialog;
     PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
+    btnRates: TdxBarLargeButton;
+    actRates: TAction;
+    Panel2: TPanel;
+    cbCurrency: TComboBox;
+    lblComboBoxCurrency: TLabel;
+    cxSplitter1: TcxSplitter;
     dxBarSubItem1: TdxBarSubItem;
     btnExp: TdxBarSubItem;
     dxBarSubItem3: TdxBarSubItem;
@@ -65,6 +72,7 @@ type
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure OnExportClick(Sender: TObject);
+    procedure actRatesExecute(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -75,12 +83,12 @@ type
     procedure myQueryExecute(aSQL: string);
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
-    function GetXMLData(fileName: TFileName): TStringList;
-    procedure InsertDataInDB(XMLData: TStringList);
+    procedure GetXMLData(fileName: TFileName);
   public
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);
+  public
     procedure CatRecChange(RecordID:integer);
 end;
 
@@ -99,7 +107,7 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants,MLDMS_CommonExportsUnit;
+  MLDMS_CommonConstants, ExchangeRatesFUnit,MLDMS_CommonExportsUnit;
 
 {$R *.dfm}
 
@@ -148,9 +156,14 @@ begin
   begin
     DropTablesFromDB;
     CreateTablesInDB;
-    InsertDataInDB(GetXMLData(OpenDialog.FileName));
+    GetXMLData(OpenDialog.FileName);
   end;
   FrameMostCategory.RefershCategory;
+end;
+
+procedure TMainF.actRatesExecute(Sender: TObject);
+begin
+  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
@@ -249,7 +262,7 @@ begin
   myQueryExecute(lcCreateTableProducts);
 end;
 
-function TMainF.GetXMLData(fileName: TFileName): TStringList;
+procedure TMainF.GetXMLData(fileName: TFileName);
 var
   lvNode                : IXMLNode;
   lvsInsertCategoryData : WideString;
@@ -306,11 +319,6 @@ begin
     myQueryExecute(lvsInsertProductData);
     myQueryExecute(lvsInsertCategoryData);
   end;
-end;
-
-procedure TMainF.InsertDataInDB(XMLData: TStringList);
-begin
-//
 end;
 
 procedure TMainF.CatRecChange(RecordID: integer);
