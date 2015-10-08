@@ -154,10 +154,6 @@ object MainF: TMainF
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'btnExport'
-        end
-        item
-          Visible = True
           ItemName = 'btnExp'
         end>
       OneOnRow = True
