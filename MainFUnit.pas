@@ -14,7 +14,8 @@ uses
   FrameMostCategoryUnit, FrameMostProductsUnit, DB, mySQLDbTables,
   xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
   MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter;
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter, cxContainer, cxEdit,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit;
 
 type
   TMainF = class(TForm)
@@ -22,6 +23,7 @@ type
     AL1            : TActionList;
     actExit        : TAction;
     actOpen        : TAction;
+    actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
     actExport      : TAction;
@@ -30,23 +32,28 @@ type
     BM1Bar1        : TdxBar;
     btnExit        : TdxBarLargeButton;
     btnOpen        : TdxBarLargeButton;
+    btnRates       : TdxBarLargeButton;
     btnRefresh     : TdxBarLargeButton;
     btnPrint       : TdxBarLargeButton;
     btnExport      : TdxBarLargeButton;
     ilImages       : TImageList;
 
-    pnlG1          : TPanel;
-    pnlG2          : TPanel;
-
     OpenDialog     : TOpenDialog;
     PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
-    btnRates: TdxBarLargeButton;
-    actRates: TAction;
-    Panel2: TPanel;
-    cbCurrency: TComboBox;
-    lblComboBoxCurrency: TLabel;
-    cxSplitter1: TcxSplitter;
+
+    pnlG1Pad       : TPanel;
+    pnlG1          : TPanel;
+    pnlG1Filters   : TPanel;
+    cxSplitter     : TcxSplitter;
+    pnlG2Pad       : TPanel;
+    pnlG2          : TPanel;
+    pnlG2Filters   : TPanel;
+    lblCbCurrency  : TLabel;
+    cbCurrency     : TcxComboBox;
+    dsRates: TDataSource;
+    qryRates: TmySQLQuery;
+
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -64,11 +71,16 @@ type
   private
     procedure InitializeDataBase;
     function OpenDatabase: Boolean;
+    procedure InitializeCbRates;
   private
     procedure myQueryExecute(aSQL: string);
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
     procedure GetXMLData(fileName: TFileName);
+    function PriceParser(sPrice: string): string;
+    function CurrencyParser(sPrice: string): string;
+    function IsCodeOnHand(sCode: string): Boolean;
+    procedure AddNewCurrency(sCode: string);
   public
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
@@ -92,7 +104,7 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants, ExchangeRatesFUnit;
+  MLDMS_CommonConstants, LocalizeDevExpressUnit, ExchangeRatesFUnit;
 
 {$R *.dfm}
 
@@ -100,6 +112,7 @@ procedure TMainF.FormCreate(Sender: TObject);
 begin
   if not (OpenDatabase) then
     Exit;// If Open Database process fail then application terminate
+  InitializeCbRates;
 
   FrameMostCategory := TFrameMostCategory.Create(MainF);
   FrameMostCategory.Parent := pnlG1;
@@ -217,7 +230,6 @@ begin
     end;
     Screen.Cursor := crDefault;
   end;
-
 end;
 
 procedure TMainF.DropTablesFromDB;
@@ -240,14 +252,35 @@ const
   lcCreateTableProducts = 'CREATE TABLE Products (                  ' +
                           '  id int(10) unsigned NOT NULL,          ' +
                           '  category_id int(10) unsigned NOT NULL, ' +
-                          '  name varchar(100) NOT NULL,            ' +
-                          '  price_1 VARCHAR(50) NOT NULL,          ' +
-                          '  price_2 VARCHAR(50) NOT NULL,          ' +
+                          '  name VARCHAR(100) NOT NULL,            ' +
+                          '  price_1 VARCHAR(30) NOT NULL,          ' +
+                          '  price_2 VARCHAR(30) NOT NULL,          ' +
+                          '  currency_code VARCHAR(3) NOT NULL,     ' +
                           '  PRIMARY KEY (id)                       ' +
                           ');                                       ';
 begin
   myQueryExecute(lcCreateTableCategory);
   myQueryExecute(lcCreateTableProducts);
+end;
+
+procedure TMainF.AddNewCurrency(sCode: string);
+begin
+//
+end;
+
+function TMainF.IsCodeOnHand(sCode: string): Boolean;
+begin
+//
+end;
+
+function TMainF.CurrencyParser(sPrice: string): string;
+begin
+  Result := RightStr(Trim(sPrice), 3);
+end;
+
+function TMainF.PriceParser(sPrice: string): string;
+begin
+  Result := LeftStr(sPrice, Pos(' ', sPrice));
 end;
 
 procedure TMainF.GetXMLData(fileName: TFileName);
@@ -290,8 +323,9 @@ begin
           end;
           lvsInsertProductData := lvsInsertProductData + IntToStr(lviCurrentCategoryID) + ', ';
           lvsInsertProductData := lvsInsertProductData + '''' + lvNode.ChildNodes['Name'].Text + ''', ';
-          lvsInsertProductData := lvsInsertProductData + '''' + lvNode.ChildNodes['Price1'].Text + ''', ';
-          lvsInsertProductData := lvsInsertProductData + '''' + lvNode.ChildNodes['Price2'].Text + '''), ';
+          lvsInsertProductData := lvsInsertProductData + '''' + PriceParser(lvNode.ChildNodes['Price1'].Text) + ''', ';
+          lvsInsertProductData := lvsInsertProductData + '''' + PriceParser(lvNode.ChildNodes['Price2'].Text) + ''', ';
+          lvsInsertProductData := lvsInsertProductData + '''' + CurrencyParser(lvNode.ChildNodes['Price1'].Text) + '''), ';
 
           lvNode := lvNode.NextSibling;
         until (lvNode = nil);
@@ -313,5 +347,27 @@ procedure TMainF.CatRecChange(RecordID: integer);
 begin
   FrameMostProducts.RefreshProducts(RecordID,1);
 end;
+
+procedure TMainF.InitializeCbRates;
+begin
+  Screen.Cursor := crSQLWait;
+  try
+    qryRates.Open;
+  finally end;
+  Screen.Cursor := crDefault;
+
+  qryRates.First;
+  while not (qryRates.Eof) do
+  begin
+    cbCurrency.Properties.Items.Add(qryRates.FieldByName('code').AsString);
+    qryRates.Next;
+  end;
+
+  cbCurrency.Properties.DropDownListStyle := lsFixedList;
+  cbCurrency.ItemIndex := 0;
+end;
+
+initialization
+  Setup_QuantumGridsResources;
 
 end.

@@ -24,6 +24,9 @@ type
     G1V1Price2: TcxGridDBColumn;
     G1V1Price2lv: TcxGridDBColumn;
     G1V1Price2lvDDS: TcxGridDBColumn;
+    procedure G1V1Price1CustomDrawCell(Sender: TcxCustomGridTableView;
+      ACanvas: TcxCanvas; AViewInfo: TcxGridTableDataCellViewInfo;
+      var ADone: Boolean);
   private
     { Private declarations }
   public
@@ -48,7 +51,7 @@ begin
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
-
+  
 end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
@@ -74,6 +77,13 @@ begin
   end
   else
     ShowMessage('Няма връзка с базата данни');
+end;
+
+procedure TFrameMostProducts.G1V1Price1CustomDrawCell(
+  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+begin
+//  AViewInfo.DisplayValue
 end;
 
 end.

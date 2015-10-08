@@ -32,6 +32,7 @@ object FrameMostProducts: TFrameMostProducts
       object G1V1Price1: TcxGridDBColumn
         Caption = #1062#1077#1085#1072' 1'
         DataBinding.FieldName = 'Price1'
+        OnCustomDrawCell = G1V1Price1CustomDrawCell
         Width = 67
       end
       object G1V1Price2: TcxGridDBColumn
