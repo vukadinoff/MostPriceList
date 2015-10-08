@@ -1,8 +1,8 @@
 object MainF: TMainF
-  Left = 192
+  Left = 197
   Top = 124
-  Width = 1023
-  Height = 730
+  Width = 1032
+  Height = 734
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,21 +18,55 @@ object MainF: TMainF
   TextHeight = 13
   object pnlG1: TPanel
     Left = 0
-    Top = 42
+    Top = 89
     Width = 345
-    Height = 650
+    Height = 607
     Align = alLeft
     TabOrder = 0
     TabStop = True
   end
   object pnlG2: TPanel
-    Left = 345
-    Top = 42
-    Width = 662
-    Height = 650
+    Left = 353
+    Top = 89
+    Width = 663
+    Height = 607
     Align = alClient
-    TabOrder = 4
+    TabOrder = 1
     TabStop = True
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 42
+    Width = 1016
+    Height = 47
+    Align = alTop
+    TabOrder = 6
+    object lblComboBoxCurrency: TLabel
+      Left = 407
+      Top = 19
+      Width = 106
+      Height = 13
+      Caption = #1042#1072#1083#1091#1090#1072' '#1085#1072' '#1089#1087#1088#1072#1074#1082#1072#1090#1072
+    end
+    object cbCurrency: TComboBox
+      Left = 522
+      Top = 16
+      Width = 176
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 0
+      Text = 'cbCurrency'
+    end
+  end
+  object cxSplitter1: TcxSplitter
+    Left = 345
+    Top = 89
+    Width = 8
+    Height = 607
+    HotZoneClassName = 'TcxXPTaskBarStyle'
+    HotZone.SizePercent = 53
+    ResizeUpdate = True
+    Control = pnlG1
   end
   object AL1: TActionList
     Left = 408
@@ -58,6 +92,10 @@ object MainF: TMainF
     object actExit: TAction
       Caption = 'actExit'
       OnExecute = actExitExecute
+    end
+    object actRates: TAction
+      Caption = 'actRates'
+      OnExecute = actRatesExecute
     end
   end
   object BM1: TdxBarManager
@@ -105,6 +143,11 @@ object MainF: TMainF
           BeginGroup = True
           Visible = True
           ItemName = 'btnOpen'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnRates'
         end
         item
           BeginGroup = True
@@ -157,6 +200,12 @@ object MainF: TMainF
       Caption = 'Exit...'
       Category = 0
       LargeImageIndex = 11
+    end
+    object btnRates: TdxBarLargeButton
+      Action = actRates
+      Caption = 'Rates...'
+      Category = 0
+      LargeImageIndex = 36
     end
   end
   object OpenDialog: TOpenDialog
@@ -4537,7 +4586,7 @@ object MainF: TMainF
     Params.Strings = (
       'Port=3306'
       'TIMEOUT=30')
-    Left = 347
+    Left = 763
   end
   object XMLDocument: TXMLDocument
     Left = 681

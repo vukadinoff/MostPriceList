@@ -13,7 +13,8 @@ uses
   dxSkinsdxRibbonPainter, dxPSCore, dxPScxCommon, dxSkinsCore,
   FrameMostCategoryUnit, FrameMostProductsUnit, DB, mySQLDbTables,
   xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
-  MegalanMySQLConnectionUnit, MySQLBatch;
+  MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter;
 
 type
   TMainF = class(TForm)
@@ -40,6 +41,12 @@ type
     OpenDialog     : TOpenDialog;
     PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
+    btnRates: TdxBarLargeButton;
+    actRates: TAction;
+    Panel2: TPanel;
+    cbCurrency: TComboBox;
+    lblComboBoxCurrency: TLabel;
+    cxSplitter1: TcxSplitter;
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -50,6 +57,7 @@ type
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
+    procedure actRatesExecute(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -84,7 +92,7 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants;
+  MLDMS_CommonConstants, ExchangeRatesFUnit;
 
 {$R *.dfm}
 
@@ -135,6 +143,11 @@ begin
     CreateTablesInDB;
     GetXMLData(OpenDialog.FileName);
   end;
+end;
+
+procedure TMainF.actRatesExecute(Sender: TObject);
+begin
+  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
