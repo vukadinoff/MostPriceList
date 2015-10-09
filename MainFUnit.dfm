@@ -2,7 +2,7 @@ object MainF: TMainF
   Left = 197
   Top = 124
   Width = 1032
-  Height = 734
+  Height = 733
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,57 +16,82 @@ object MainF: TMainF
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object pnlG1: TPanel
-    Left = 0
-    Top = 89
-    Width = 345
-    Height = 607
-    Align = alLeft
-    TabOrder = 0
-    TabStop = True
-  end
-  object pnlG2: TPanel
-    Left = 353
-    Top = 89
-    Width = 663
-    Height = 607
-    Align = alClient
-    TabOrder = 1
-    TabStop = True
-  end
-  object Panel2: TPanel
+  object pnlG1Pad: TPanel
     Left = 0
     Top = 42
-    Width = 1016
-    Height = 47
-    Align = alTop
-    TabOrder = 6
-    object lblComboBoxCurrency: TLabel
-      Left = 407
-      Top = 19
-      Width = 106
-      Height = 13
-      Caption = #1042#1072#1083#1091#1090#1072' '#1085#1072' '#1089#1087#1088#1072#1074#1082#1072#1090#1072
-    end
-    object cbCurrency: TComboBox
-      Left = 522
-      Top = 16
-      Width = 176
-      Height = 21
-      ItemHeight = 13
+    Width = 329
+    Height = 653
+    Align = alLeft
+    TabOrder = 0
+    object pnlG1: TPanel
+      Left = 1
+      Top = 47
+      Width = 327
+      Height = 605
+      Align = alClient
       TabOrder = 0
-      Text = 'cbCurrency'
+      TabStop = True
+    end
+    object pnlG1Filters: TPanel
+      Left = 1
+      Top = 1
+      Width = 327
+      Height = 46
+      Align = alTop
+      TabOrder = 1
     end
   end
-  object cxSplitter1: TcxSplitter
-    Left = 345
-    Top = 89
+  object pnlG2Pad: TPanel
+    Left = 337
+    Top = 42
+    Width = 679
+    Height = 653
+    Align = alClient
+    TabOrder = 5
+    object pnlG2: TPanel
+      Left = 1
+      Top = 48
+      Width = 677
+      Height = 604
+      Align = alClient
+      TabOrder = 0
+      TabStop = True
+    end
+    object pnlG2Filters: TPanel
+      Left = 1
+      Top = 1
+      Width = 677
+      Height = 47
+      Align = alTop
+      TabOrder = 1
+      object lblCbCurrency: TLabel
+        Left = 13
+        Top = 19
+        Width = 106
+        Height = 13
+        Caption = #1042#1072#1083#1091#1090#1072' '#1085#1072' '#1089#1087#1088#1072#1074#1082#1072#1090#1072
+      end
+      object cbCurrency: TcxComboBox
+        Left = 127
+        Top = 16
+        Properties.ReadOnly = False
+        Properties.UseLeftAlignmentOnEditing = False
+        Properties.ValidateOnEnter = False
+        Style.Color = clInfoBk
+        TabOrder = 0
+        OnClick = cbCurrencyClick
+        Width = 57
+      end
+    end
+  end
+  object cxSplitter: TcxSplitter
+    Left = 329
+    Top = 42
     Width = 8
-    Height = 607
+    Height = 653
     HotZoneClassName = 'TcxXPTaskBarStyle'
-    HotZone.SizePercent = 53
-    ResizeUpdate = True
-    Control = pnlG1
+    HotZone.SizePercent = 52
+    Control = pnlG1Pad
   end
   object AL1: TActionList
     Images = ilImages
@@ -4696,18 +4721,37 @@ object MainF: TMainF
       000000000000}
   end
   object PrintDialog: TPrintDialog
-    Left = 823
   end
   object dbMostPriceList: TmySQLDatabase
+    Connected = True
+    DatabaseName = 'most_price_list'
+    UserName = 'kkroot'
+    UserPassword = 'k6415dl'
+    Port = 3307
+    Host = 'devdb.maniapc.org'
     ConnectOptions = []
     Params.Strings = (
-      'Port=3306'
-      'TIMEOUT=30')
+      'Port=3307'
+      'TIMEOUT=30'
+      'DatabaseName=most_price_list'
+      'Host=devdb.maniapc.org'
+      'UID=kkroot'
+      'PWD=k6415dl')
     Left = 499
   end
   object XMLDocument: TXMLDocument
     Left = 889
     Top = 1
     DOMVendorDesc = 'MSXML'
+  end
+  object dsRates: TDataSource
+    DataSet = qryRates
+    Left = 842
+  end
+  object qryRates: TmySQLQuery
+    Database = dbMostPriceList
+    SQL.Strings = (
+      'SELECT * FROM ExchangeRates;')
+    Left = 914
   end
 end

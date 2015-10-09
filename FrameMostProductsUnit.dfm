@@ -1,8 +1,6 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
-  Width = 620
-  Height = 540
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
@@ -37,29 +35,29 @@ object FrameMostProducts: TFrameMostProducts
       object G1V1Price1: TcxGridDBColumn
         Caption = #1062#1077#1085#1072' 1'
         DataBinding.FieldName = 'Price1'
-        Options.Editing = False
-        Options.Focusing = False
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.00;-,0.00'
         Width = 67
+      end
+      object G1V1Price1VAT: TcxGridDBColumn
+        Caption = #1062#1077#1085#1072' 1 '#1089' '#1044#1044#1057
+        DataBinding.FieldName = 'Price1VAT'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.00;-,0.00'
+        Width = 150
       end
       object G1V1Price2: TcxGridDBColumn
         Caption = #1062#1077#1085#1072' 2'
         DataBinding.FieldName = 'Price2'
-        Options.Editing = False
-        Options.Focusing = False
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.00;-,0.00'
         Width = 69
       end
-      object G1V1Price2lv: TcxGridDBColumn
-        Caption = #1062#1077#1085#1072' 2 '#1074' '#1083#1074'. '#1073#1077#1079' '#1044#1044#1057
-        DataBinding.FieldName = 'Price2lv'
-        Options.Editing = False
-        Options.Focusing = False
-        Width = 150
-      end
-      object G1V1Price2lvDDS: TcxGridDBColumn
-        Caption = #1062#1077#1085#1072' 2 '#1074' '#1083#1074'. '#1089' '#1044#1044#1057
-        DataBinding.FieldName = 'Price2lvDDS'
-        Options.Editing = False
-        Options.Focusing = False
+      object G1V1Price2VAT: TcxGridDBColumn
+        Caption = #1062#1077#1085#1072' 2 '#1089' '#1044#1044#1057
+        DataBinding.FieldName = 'Price2VAT'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.00;-,0.00'
         Width = 140
       end
     end
@@ -69,47 +67,16 @@ object FrameMostProducts: TFrameMostProducts
   end
   object dsProducts: TDataSource
     DataSet = qryProducts
-    Left = 456
-    Top = 64
+    Left = 120
+    Top = 72
   end
   object qryProducts: TmySQLQuery
-    Left = 400
-    Top = 64
+    UpdateObject = qryProductsUpdate
+    Left = 40
+    Top = 72
   end
-  object G1Popup: TPopupMenu
-    Left = 516
-    Top = 64
-    object N3: TMenuItem
-      Caption = '-'
-    end
-  end
-  object Printer1: TdxComponentPrinter
-    CurrentLink = Printer1G1
-    Version = 0
-    Left = 560
-    Top = 64
-    object Printer1G1: TdxGridReportLink
-      Active = True
-      Component = G1
-      PageNumberFormat = pnfNumeral
-      PrinterPage.DMPaper = 9
-      PrinterPage.Footer = 6350
-      PrinterPage.Header = 6350
-      PrinterPage.Margins.Bottom = 12700
-      PrinterPage.Margins.Left = 12700
-      PrinterPage.Margins.Right = 12700
-      PrinterPage.Margins.Top = 12700
-      PrinterPage.PageSize.X = 210000
-      PrinterPage.PageSize.Y = 297000
-      PrinterPage._dxMeasurementUnits_ = 0
-      PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 42285.658714120370000000
-      AssignedFormatValues = [fvDate, fvTime, fvPageNumber]
-      OptionsSize.AutoWidth = True
-      OptionsView.Footers = False
-      OptionsView.Caption = False
-      OptionsView.FilterBar = False
-      BuiltInReportLink = True
-    end
+  object qryProductsUpdate: TmySQLUpdateSQL
+    Left = 40
+    Top = 128
   end
 end
