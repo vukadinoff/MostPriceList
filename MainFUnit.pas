@@ -14,7 +14,8 @@ uses
   FrameMostCategoryUnit, FrameMostProductsUnit, DB, mySQLDbTables,
   xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
   MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter;
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter, cxButtonEdit,
+  cxBarEditItem;
 
 
 type
@@ -57,6 +58,9 @@ type
     btnExpToHTML: TdxBarButton;
     btnExpToXML: TdxBarButton;
     btnExpToTXT: TdxBarButton;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxBarButton1: TdxBarButton;
+    cxBarEditItem1: TcxBarEditItem;
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
