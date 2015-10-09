@@ -27,7 +27,6 @@ type
     AL1            : TActionList;
     actExit        : TAction;
     actOpen        : TAction;
-    actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
 
@@ -67,6 +66,7 @@ type
     cbCurrency     : TcxComboBox;
     dsRates: TDataSource;
     qryRates: TmySQLQuery;
+    actExport: TAction;
 
 
     procedure FormCreate(Sender: TObject);
@@ -191,7 +191,7 @@ end;
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
-  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
+  //FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;

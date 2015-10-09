@@ -13,7 +13,8 @@ uses
   dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
   dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
-  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon;
+  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon, dxSkinsCore,
+  dxSkinsDefaultPainters, dxSkinscxPCPainter, cxCurrencyEdit;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -29,11 +30,6 @@ type
     G1V1Price1VAT   : TcxGridDBColumn;
     G1V1Price2      : TcxGridDBColumn;
     G1V1Price2VAT   : TcxGridDBColumn;
-    qryProductsUpdate: TmySQLUpdateSQL;
-    G1Popup: TPopupMenu;
-    N3: TMenuItem;
-    Printer1: TdxComponentPrinter;
-    Printer1G1: TdxGridReportLink;
   private
     { Private declarations }
   public
@@ -59,19 +55,11 @@ begin
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
-  TcxGridExportMenuGroup.CreateMenuGroup(G1Popup, N3);
 end;
 
 procedure TFrameMostProducts.Print(CurrentCategory: string);
-var
- lvLabel:string;
 begin
-  lvLabel:= 'Категория: "'+CurrentCategory+'"';
-  Printer1G1.ReportTitle.Font.Name:= 'Arial';
-  Printer1G1.ReportTitle.Text:=lvLabel;
-  Printer1G1.PrinterPage.PageFooter.Font.Style:= Printer1G1.PrinterPage.PageFooter.Font.Style+[fsItalic];
-  Printer1G1.PrinterPage.PageFooter.LeftTitle.Text:= lvLabel;
-  Printer1G1.Preview(True);
+//
 end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Double);
@@ -84,27 +72,19 @@ const
 	        '(p.price_2)*(1.2) AS Price2VAT                       '+CRLF+
 	        'FROM Products p                                      '+CRLF+
 	        'JOIN Category c ON (c.id = p.category_id);           ';
+var
+  i: Integer;
+  c: TcxGridDBColumn;
 begin
   if MainF.dbMostPriceList.Connected then
   begin
     Screen.Cursor := crSQLWait;
     qryProducts.Active:= False;
+    qryProducts.SQL.Text:= lcSQL;
     try
-      qryProducts.SQL.Text:= lcSQL;
       qryProducts.Open;
-
-      qryProducts.Active:= True;
-      qryProducts.Edit;
-
-      qryProducts.First;
-      while not (qryProducts.Eof) do
-      begin
-        qryProducts.FieldByName('Price1').Value := 2;
-        qryProducts.Next;
-      end;
-
-      qryProducts.Post;
     finally end;
+    qryProducts.Active:= True;
     Screen.Cursor := crDefault;
   end
   else

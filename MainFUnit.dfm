@@ -114,6 +114,10 @@ object MainF: TMainF
       Caption = 'actExit'
       OnExecute = actExitExecute
     end
+    object actExport: TAction
+      Caption = 'actExport'
+      ImageIndex = 81
+    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -232,10 +236,9 @@ object MainF: TMainF
       ItemLinks = <>
     end
     object btnExp: TdxBarSubItem
+      Action = actExport
       Caption = 'Export...'
       Category = 0
-      Visible = ivAlways
-      ImageIndex = 81
       LargeImageIndex = 81
       ItemLinks = <
         item
@@ -274,7 +277,6 @@ object MainF: TMainF
       Hint = 'MS Excel'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
     end
     object dxBarButton2: TdxBarButton
       Caption = 'New Button'
@@ -305,7 +307,6 @@ object MainF: TMainF
       Hint = 'HTML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
     end
     object btnExpToXML: TdxBarButton
       Tag = 3
@@ -314,7 +315,6 @@ object MainF: TMainF
       Hint = 'XML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
     end
     object btnExpToTXT: TdxBarButton
       Tag = 4
@@ -323,7 +323,6 @@ object MainF: TMainF
       Hint = 'Text file'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
     end
   end
   object OpenDialog: TOpenDialog
@@ -4697,6 +4696,7 @@ object MainF: TMainF
       000000000000}
   end
   object PrintDialog: TPrintDialog
+    Left = 416
   end
   object dbMostPriceList: TmySQLDatabase
     Connected = True

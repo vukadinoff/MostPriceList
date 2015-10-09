@@ -1,14 +1,15 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
+  Width = 320
+  Height = 240
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
     Top = 0
-    Width = 620
-    Height = 540
+    Width = 320
+    Height = 240
     Align = alClient
-    PopupMenu = G1Popup
     TabOrder = 0
     object G1V1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
@@ -71,12 +72,7 @@ object FrameMostProducts: TFrameMostProducts
     Top = 72
   end
   object qryProducts: TmySQLQuery
-    UpdateObject = qryProductsUpdate
     Left = 40
     Top = 72
-  end
-  object qryProductsUpdate: TmySQLUpdateSQL
-    Left = 40
-    Top = 128
   end
 end
