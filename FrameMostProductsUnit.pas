@@ -8,8 +8,12 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, dxSkinsCore, dxSkinsDefaultPainters,
-  dxSkinscxPCPainter, cxCalc, cxCurrencyEdit, cxBlobEdit, cxLabel;
+  cxGridDBTableView, Menus, cxGrid, dxPSGlbl, dxPSUtl, dxPSEngn, dxPrnPg,
+  dxBkgnd, dxWrap, dxPrnDev, dxPSCompsProvider, dxPSFillPatterns,
+  dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
+  dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
+  dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
+  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -26,18 +30,23 @@ type
     G1V1Price2      : TcxGridDBColumn;
     G1V1Price2VAT   : TcxGridDBColumn;
     qryProductsUpdate: TmySQLUpdateSQL;
+    G1Popup: TPopupMenu;
+    N3: TMenuItem;
+    Printer1: TdxComponentPrinter;
+    Printer1G1: TdxGridReportLink;
   private
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts(const CategoryID:Integer;const Rate:Extended);
+    procedure RefreshProducts(const CategoryID:Integer;const Rate:Double);
+    procedure Print(CurrentCategory:string);
 end;
 
 implementation
 
 {$R *.dfm}
 uses
-  MainFUnit;
+  MainFUnit,MLDMS_CommonExportsUnit;
 { TFrameMostProducts }
 const
   CRLF     = #13#10;
@@ -50,9 +59,22 @@ begin
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
+  TcxGridExportMenuGroup.CreateMenuGroup(G1Popup, N3);
 end;
 
-procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
+procedure TFrameMostProducts.Print(CurrentCategory: string);
+var
+ lvLabel:string;
+begin
+  lvLabel:= 'Категория: "'+CurrentCategory+'"';
+  Printer1G1.ReportTitle.Font.Name:= 'Arial';
+  Printer1G1.ReportTitle.Text:=lvLabel;
+  Printer1G1.PrinterPage.PageFooter.Font.Style:= Printer1G1.PrinterPage.PageFooter.Font.Style+[fsItalic];
+  Printer1G1.PrinterPage.PageFooter.LeftTitle.Text:= lvLabel;
+  Printer1G1.Preview(True);
+end;
+
+procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Double);
 const
   lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
 	        'p.name AS ProductName,                               '+CRLF+

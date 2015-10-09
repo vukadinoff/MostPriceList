@@ -1,34 +1,40 @@
 [Closed Files]
-File_0=SourceModule,'D:\MostPriceList\price_list.pas',0,1,73,1,1,0,0
-File_1=SourceModule,'D:\MostPriceList\FrameMostPriceList.pas',0,1,1,3,51,1,0
-File_2=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\MostPriceList\MainFUnit.pas',0,1,1,41,6,0,0
-File_3=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\FirmClubOrders\RptOrderArticlesFUnit.pas',0,1,1,13,21,1,0
-File_4=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\FirmClubOrders\FrameRptOrderArticlesUnit.pas',0,1,61,40,65,1,0
-File_5=SourceModule,'C:\PROGRA~2\Borland\Delphi7\source\RTL\common\dateutils.pas',0,1,581,1,601,0,0
-File_6=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressBars\Sources\dxBar.pas',0,1,39024,1,39065,0,0
-File_7=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Sources\cxCalendar.pas',0,1,3789,1,3818,0,0
-File_8=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Sources\cxEdit.pas',0,1,7718,1,7734,0,0
-File_9=SourceModule,'D:\R&D\DMS\MegalanDMS\src_Common\CommonUtilsUnit.pas',0,1,408,5,424,0,0
+File_0=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Sources\cxDropDownEdit.pas',0,1,33,71,49,0,0
+File_1=SourceModule,'D:\MostPriceList\price_list.pas',0,1,73,1,1,0,0
+File_2=SourceModule,'D:\MostPriceList\FrameMostPriceList.pas',0,1,1,3,51,1,0
+File_3=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\MostPriceList\MainFUnit.pas',0,1,1,41,6,0,0
+File_4=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\FirmClubOrders\RptOrderArticlesFUnit.pas',0,1,1,13,21,1,0
+File_5=SourceModule,'D:\GitHub\Delphi_Projects\Megalan\FirmClubOrders\FrameRptOrderArticlesUnit.pas',0,1,61,40,65,1,0
+File_6=SourceModule,'C:\PROGRA~2\Borland\Delphi7\source\RTL\common\dateutils.pas',0,1,581,1,601,0,0
+File_7=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressBars\Sources\dxBar.pas',0,1,39024,1,39065,0,0
+File_8=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Sources\cxCalendar.pas',0,1,3789,1,3818,0,0
+File_9=SourceModule,'D:\R&D\Libs\D7\DevExpress VCL\ExpressEditors Library\Sources\cxEdit.pas',0,1,7718,1,7734,0,0
 
 [Modules]
-Module0=D:\MostPriceList\MainFUnit.pas
-Module1=D:\MostPriceList\FrameMostCategoryUnit.pas
-Module2=D:\MostPriceList\FrameMostProductsUnit.pas
-Module3=D:\MostPriceList\MostPriceListProject.dpr
-Count=4
+Module0=D:\MostPriceList\FrameMostProductsUnit.pas
+Module1=D:\MostPriceList\MainFUnit.pas
+Module2=D:\MostPriceList\ExchangeRatesFUnit.pas
+Module3=D:\MostPriceList\FrameMostCategoryUnit.pas
+Module4=D:\MostPriceList\MostPriceListProject.dpr
+Count=5
 EditWindowCount=1
+
+[D:\MostPriceList\FrameMostProductsUnit.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
 
 [D:\MostPriceList\MainFUnit.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[D:\MostPriceList\FrameMostCategoryUnit.pas]
+[D:\MostPriceList\ExchangeRatesFUnit.pas]
 ModuleType=SourceModule
-FormState=0
+FormState=1
 FormOnTop=0
 
-[D:\MostPriceList\FrameMostProductsUnit.pas]
+[D:\MostPriceList\FrameMostCategoryUnit.pas]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -43,12 +49,13 @@ FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=4
-CurrentView=0
+ViewCount=5
+CurrentView=3
 View0=0
 View1=1
 View2=2
 View3=3
+View4=4
 CodeExplorer=CodeExplorer@EditWindow0
 MessageView=MessageView@EditWindow0
 Create=1
@@ -72,29 +79,36 @@ BottomPanelData=0000040000000000000000000000000000000000000000000001000000000000
 
 [View0]
 Module=D:\MostPriceList\MainFUnit.pas
-CursorX=7
-CursorY=198
-TopLine=173
+CursorX=1
+CursorY=351
+TopLine=331
 LeftCol=1
 
 [View1]
+Module=D:\MostPriceList\ExchangeRatesFUnit.pas
+CursorX=5
+CursorY=41
+TopLine=13
+LeftCol=1
+
+[View2]
 Module=D:\MostPriceList\MostPriceListProject.dpr
 CursorX=1
 CursorY=14
 TopLine=1
 LeftCol=1
 
-[View2]
+[View3]
 Module=D:\MostPriceList\FrameMostProductsUnit.pas
 CursorX=1
-CursorY=20
-TopLine=4
+CursorY=81
+TopLine=55
 LeftCol=1
 
-[View3]
+[View4]
 Module=D:\MostPriceList\FrameMostCategoryUnit.pas
-CursorX=27
-CursorY=1
+CursorX=1
+CursorY=68
 TopLine=1
 LeftCol=1
 
@@ -168,7 +182,7 @@ Dockable=1
 SplitPos=85
 ArrangeBy=Name
 SelectedItem=Caption
-ExpandedItems=
+ExpandedItems=DataSet,UpdateObject
 HiddenCategories=
 
 [ObjectTree]

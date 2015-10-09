@@ -21,11 +21,15 @@ object FrameMostCategory: TFrameMostCategory
       object G1V1CategoryID: TcxGridDBColumn
         Caption = 'No:'
         DataBinding.FieldName = 'CategoryID'
+        Options.Editing = False
+        Options.Focusing = False
         Width = 122
       end
       object G1V1CategoryName: TcxGridDBColumn
         Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
         DataBinding.FieldName = 'CategoryName'
+        Options.Editing = False
+        Options.Focusing = False
         Width = 499
       end
     end

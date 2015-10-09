@@ -95,4 +95,5 @@ begin
     if Assigned(FOnCatRecChange) then
       FOnCatRecChange(RecordID);
 end;
+function TFrameMostCategory.GetCurrentCategoryName: string;
 end.

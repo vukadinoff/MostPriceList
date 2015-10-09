@@ -1,15 +1,14 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
-  Width = 702
-  Height = 573
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
     Top = 0
-    Width = 702
-    Height = 573
+    Width = 620
+    Height = 540
     Align = alClient
+    PopupMenu = G1Popup
     TabOrder = 0
     object G1V1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
@@ -22,11 +21,15 @@ object FrameMostProducts: TFrameMostProducts
       object G1V1ProductID: TcxGridDBColumn
         Caption = 'No:'
         DataBinding.FieldName = 'ProductID'
+        Options.Editing = False
+        Options.Focusing = False
         Width = 55
       end
       object G1V1ProductName: TcxGridDBColumn
         Caption = #1055#1088#1086#1076#1091#1082#1090
         DataBinding.FieldName = 'ProductName'
+        Options.Editing = False
+        Options.Focusing = False
         Width = 219
       end
       object G1V1Price1: TcxGridDBColumn

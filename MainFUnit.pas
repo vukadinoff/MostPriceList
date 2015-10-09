@@ -20,6 +20,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView;
 
+
 type
   TMainF = class(TForm)
     dbMostPriceList: TmySQLDatabase;
@@ -29,7 +30,6 @@ type
     actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
-    actExport      : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -44,6 +44,17 @@ type
     OpenDialog     : TOpenDialog;
     PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
+    dxBarSubItem1: TdxBarSubItem;
+    btnExp: TdxBarSubItem;
+    dxBarSubItem3: TdxBarSubItem;
+    dxBarSubItem4: TdxBarSubItem;
+    btnExpToExcel: TdxBarButton;
+    dxBarButton2: TdxBarButton;
+    dxBarListItem1: TdxBarListItem;
+    dxBarSeparator1: TdxBarSeparator;
+    btnExpToHTML: TdxBarButton;
+    btnExpToXML: TdxBarButton;
+    btnExpToTXT: TdxBarButton;
 
     pnlG1Pad       : TPanel;
     pnlG1          : TPanel;
@@ -66,7 +77,6 @@ type
     procedure actOpenExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
-    procedure actExportExecute(Sender: TObject);
     procedure actRatesExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
   private
@@ -160,6 +170,7 @@ begin
     CreateTablesInDB;
     GetXMLData(OpenDialog.FileName);
   end;
+  FrameMostCategory.RefershCategory;
 end;
 
 procedure TMainF.actRatesExecute(Sender: TObject);
@@ -177,24 +188,21 @@ begin
   Notifier_PrintReport;
 end;
 
-procedure TMainF.actExportExecute(Sender: TObject);
-begin
-  Notifier_ExportReport(cUnknownID);
-end;
-
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
+  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;
 begin
-//
+  FrameMostCategory.RefershCategory;
 end;
 
 procedure TMainF.Notifier_ExportReport(const aExportFmt: Integer);
 begin
   inherited;
+  
 end;
 
 procedure TMainF.InitializeDataBase;

@@ -94,7 +94,8 @@ object MainF: TMainF
     Control = pnlG1Pad
   end
   object AL1: TActionList
-    Left = 408
+    Images = ilImages
+    Left = 568
     object actRefresh: TAction
       Caption = 'actRefresh'
       ImageIndex = 33
@@ -105,11 +106,6 @@ object MainF: TMainF
       ImageIndex = 4
       OnExecute = actPrintExecute
     end
-    object actExport: TAction
-      Caption = #1045#1082#1089#1087#1086#1088#1090'...'
-      ImageIndex = 81
-      OnExecute = actExportExecute
-    end
     object actOpen: TAction
       Caption = 'actOpen'
       OnExecute = actOpenExecute
@@ -117,10 +113,6 @@ object MainF: TMainF
     object actExit: TAction
       Caption = 'actExit'
       OnExecute = actExitExecute
-    end
-    object actRates: TAction
-      Caption = 'actRates'
-      OnExecute = actRatesExecute
     end
   end
   object BM1: TdxBarManager
@@ -139,7 +131,7 @@ object MainF: TMainF
     ImageOptions.LargeImages = ilImages
     PopupMenuLinks = <>
     UseSystemFont = True
-    Left = 448
+    Left = 632
     DockControlHeights = (
       0
       0
@@ -187,7 +179,7 @@ object MainF: TMainF
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'btnExport'
+          ItemName = 'btnExp'
         end>
       OneOnRow = True
       Row = 0
@@ -208,9 +200,10 @@ object MainF: TMainF
       ImageIndex = 4
     end
     object btnExport: TdxBarLargeButton
-      Action = actExport
       Caption = 'Export...'
       Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 81
     end
     object btnOpen: TdxBarLargeButton
       Action = actOpen
@@ -227,18 +220,118 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Action = actRates
       Caption = 'Rates...'
       Category = 0
+      Visible = ivAlways
       LargeImageIndex = 36
+    end
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object btnExp: TdxBarSubItem
+      Caption = 'Export...'
+      Category = 0
+      Visible = ivAlways
+      ImageIndex = 81
+      LargeImageIndex = 81
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'btnExpToExcel'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToHTML'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToXML'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToTXT'
+        end>
+    end
+    object dxBarSubItem3: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarSubItem4: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object btnExpToExcel: TdxBarButton
+      Tag = 1
+      Caption = 'MS Excel'
+      Category = 0
+      Hint = 'MS Excel'
+      Visible = ivAlways
+      ImageIndex = 81
+      OnClick = OnExportClick
+    end
+    object dxBarButton2: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarListItem1: TdxBarListItem
+      Caption = 'New Item'
+      Category = 0
+      Visible = ivAlways
+      Items.Strings = (
+        '1'
+        '2'
+        '3'
+        '4')
+    end
+    object dxBarSeparator1: TdxBarSeparator
+      Caption = 'New Separator'
+      Category = 0
+      Hint = 'New Separator'
+      Visible = ivAlways
+    end
+    object btnExpToHTML: TdxBarButton
+      Tag = 2
+      Caption = 'HTML'
+      Category = 0
+      Hint = 'HTML'
+      Visible = ivAlways
+      ImageIndex = 81
+      OnClick = OnExportClick
+    end
+    object btnExpToXML: TdxBarButton
+      Tag = 3
+      Caption = 'XML'
+      Category = 0
+      Hint = 'XML'
+      Visible = ivAlways
+      ImageIndex = 81
+      OnClick = OnExportClick
+    end
+    object btnExpToTXT: TdxBarButton
+      Tag = 4
+      Caption = 'Text file'
+      Category = 0
+      Hint = 'Text file'
+      Visible = ivAlways
+      ImageIndex = 81
+      OnClick = OnExportClick
     end
   end
   object OpenDialog: TOpenDialog
     Filter = 'eXtensible Markup Language (*.xml)|*.xml'
-    Left = 544
+    Left = 760
   end
   object ilImages: TImageList
-    Left = 488
+    Left = 696
     Bitmap = {
       494C010180008100040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001002000001002000000000000010
@@ -4604,7 +4697,6 @@ object MainF: TMainF
       000000000000}
   end
   object PrintDialog: TPrintDialog
-    Left = 607
   end
   object dbMostPriceList: TmySQLDatabase
     Connected = True
@@ -4621,10 +4713,10 @@ object MainF: TMainF
       'Host=devdb.maniapc.org'
       'UID=kkroot'
       'PWD=k6415dl')
-    Left = 763
+    Left = 499
   end
   object XMLDocument: TXMLDocument
-    Left = 681
+    Left = 889
     Top = 1
     DOMVendorDesc = 'MSXML'
   end
