@@ -9,24 +9,23 @@ uses
   cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, dxSkinsCore, dxSkinsDefaultPainters,
-  dxSkinscxPCPainter;
+  dxSkinscxPCPainter, cxCalc, cxCurrencyEdit, cxBlobEdit, cxLabel;
 
 type
   TFrameMostProducts = class(TFrame)
-    G1V1: TcxGridDBTableView;
-    G1L1: TcxGridLevel;
-    G1: TcxGrid;
-    dsProducts: TDataSource;
-    qrProducts: TmySQLQuery;
-    G1V1ProductID: TcxGridDBColumn;
-    G1V1ProductName: TcxGridDBColumn;
-    G1V1Price1: TcxGridDBColumn;
-    G1V1Price2: TcxGridDBColumn;
-    G1V1Price2lv: TcxGridDBColumn;
-    G1V1Price2lvDDS: TcxGridDBColumn;
-    procedure G1V1Price1CustomDrawCell(Sender: TcxCustomGridTableView;
-      ACanvas: TcxCanvas; AViewInfo: TcxGridTableDataCellViewInfo;
-      var ADone: Boolean);
+    G1              : TcxGrid;
+    G1V1            : TcxGridDBTableView;
+    G1L1            : TcxGridLevel;
+    dsProducts      : TDataSource;
+    qryProducts     : TmySQLQuery;
+
+    G1V1ProductID   : TcxGridDBColumn;
+    G1V1ProductName : TcxGridDBColumn;
+    G1V1Price1      : TcxGridDBColumn;
+    G1V1Price1VAT   : TcxGridDBColumn;
+    G1V1Price2      : TcxGridDBColumn;
+    G1V1Price2VAT   : TcxGridDBColumn;
+    qryProductsUpdate: TmySQLUpdateSQL;
   private
     { Private declarations }
   public
@@ -46,12 +45,11 @@ const
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
-  qrProducts.Database := MainF.dbMostPriceList;
-  dsProducts.DataSet:= qrProducts;
+  qryProducts.Database := MainF.dbMostPriceList;
+  dsProducts.DataSet:= qryProducts;
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
-  
 end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Extended);
@@ -59,31 +57,36 @@ const
   lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
 	        'p.name AS ProductName,                               '+CRLF+
 	        'p.price_1 AS Price1,                                 '+CRLF+
+	        '(p.price_1)*(1.2) AS Price1VAT,                      '+CRLF+
 	        'p.price_2 AS Price2,                                 '+CRLF+
-	        'p.price_2*%1:n AS Price2lv,                          '+CRLF+
-	        'p.price_2*%1:n+(p.price_2*%1:n*0.2) AS Price2lvDDS   '+CRLF+
+	        '(p.price_2)*(1.2) AS Price2VAT                       '+CRLF+
 	        'FROM Products p                                      '+CRLF+
-	        'JOIN Category c ON (c.id = p.category_id)            '+CRLF+
-	        'WHERE c.id = %0:d;                                   ';
+	        'JOIN Category c ON (c.id = p.category_id);           ';
 begin
   if MainF.dbMostPriceList.Connected then
   begin
-    Try
-      qrProducts.Active:= False;
-      qrProducts.SQL.Text:= Format(lcSQL,[CategoryID,Rate]);
-      qrProducts.Active:= True;
-    finally
-    end;
+    Screen.Cursor := crSQLWait;
+    qryProducts.Active:= False;
+    try
+      qryProducts.SQL.Text:= lcSQL;
+      qryProducts.Open;
+
+      qryProducts.Active:= True;
+      qryProducts.Edit;
+
+      qryProducts.First;
+      while not (qryProducts.Eof) do
+      begin
+        qryProducts.FieldByName('Price1').Value := 2;
+        qryProducts.Next;
+      end;
+
+      qryProducts.Post;
+    finally end;
+    Screen.Cursor := crDefault;
   end
   else
     ShowMessage('Няма връзка с базата данни');
-end;
-
-procedure TFrameMostProducts.G1V1Price1CustomDrawCell(
-  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
-  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
-begin
-//  AViewInfo.DisplayValue
 end;
 
 end.

@@ -79,6 +79,7 @@ object MainF: TMainF
         Properties.ValidateOnEnter = False
         Style.Color = clInfoBk
         TabOrder = 0
+        OnClick = cbCurrencyClick
         Width = 57
       end
     end

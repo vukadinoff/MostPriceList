@@ -15,7 +15,10 @@ uses
   xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
   MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxSplitter, cxContainer, cxEdit,
-  cxTextEdit, cxMaskEdit, cxDropDownEdit;
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxGrid, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView;
 
 type
   TMainF = class(TForm)
@@ -65,6 +68,7 @@ type
     procedure actPrintExecute(Sender: TObject);
     procedure actExportExecute(Sender: TObject);
     procedure actRatesExecute(Sender: TObject);
+    procedure cbCurrencyClick(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -216,20 +220,16 @@ var
   myQuery: TmySQLQuery;
 begin
   myQuery := TmySQLQuery.Create(Self);
-	with myQuery do
-  begin
-    Screen.Cursor := crSQLWait;
-    try
-		  Database := dbMostPriceList;
 
-      SQL.Text := aSQL;
-      ExecSQL;
-	  except
-		  FreeAndNil(myQuery);
-		  raise;
-    end;
-    Screen.Cursor := crDefault;
+  Screen.Cursor := crSQLWait;
+  try
+    myQuery.Database := dbMostPriceList;
+    myQuery.SQL.Text := aSQL;
+    myQuery.ExecSQL;
+  finally
+    FreeAndNil(myQuery);
   end;
+  Screen.Cursor := crDefault;
 end;
 
 procedure TMainF.DropTablesFromDB;
@@ -253,8 +253,8 @@ const
                           '  id int(10) unsigned NOT NULL,          ' +
                           '  category_id int(10) unsigned NOT NULL, ' +
                           '  name VARCHAR(100) NOT NULL,            ' +
-                          '  price_1 VARCHAR(30) NOT NULL,          ' +
-                          '  price_2 VARCHAR(30) NOT NULL,          ' +
+                          '  price_1 double NOT NULL,               ' +
+                          '  price_2 double NOT NULL,               ' +
                           '  currency_code VARCHAR(3) NOT NULL,     ' +
                           '  PRIMARY KEY (id)                       ' +
                           ');                                       ';
@@ -270,12 +270,14 @@ end;
 
 function TMainF.IsCodeOnHand(sCode: string): Boolean;
 begin
-//
+  Result := True;
 end;
 
 function TMainF.CurrencyParser(sPrice: string): string;
 begin
   Result := RightStr(Trim(sPrice), 3);
+  if not (IsCodeOnHand(Result)) then
+    AddNewCurrency(Result);
 end;
 
 function TMainF.PriceParser(sPrice: string): string;
@@ -345,7 +347,7 @@ end;
 
 procedure TMainF.CatRecChange(RecordID: integer);
 begin
-  FrameMostProducts.RefreshProducts(RecordID,1);
+  FrameMostProducts.RefreshProducts(RecordID, 1);
 end;
 
 procedure TMainF.InitializeCbRates;
@@ -365,6 +367,15 @@ begin
 
   cbCurrency.Properties.DropDownListStyle := lsFixedList;
   cbCurrency.ItemIndex := 0;
+end;
+
+procedure TMainF.cbCurrencyClick(Sender: TObject);
+begin
+  if not (FrameMostProducts = nil) then
+  begin
+    FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
+    FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
+  end;
 end;
 
 initialization
