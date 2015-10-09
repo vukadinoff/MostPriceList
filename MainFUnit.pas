@@ -11,15 +11,14 @@ uses
   dxPSPrVwRibbon, dxPScxPageControlProducer, dxPScxGridLnk,
   dxPScxGridLayoutViewLnk, dxPScxEditorProducers, dxPScxExtEditorProducers,
   dxSkinsdxRibbonPainter, dxPSCore, dxPScxCommon, dxSkinsCore,
-  FrameMostCategoryUnit, FrameMostProductsUnit, DB, mySQLDbTables,
-  xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
+  DB, mySQLDbTables, xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
   MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter,  cxLookAndFeels, 
-cxLookAndFeelPainters, cxSplitter, cxContainer, cxEdit,
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter, cxContainer, cxEdit,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxGrid, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView;
+  cxGridDBTableView, cxButtonEdit, cxBarEditItem,
+  FrameMostCategoryUnit, FrameMostProductsUnit;
 
 
 type
@@ -28,7 +27,6 @@ type
     AL1            : TActionList;
     actExit        : TAction;
     actOpen        : TAction;
-    actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
 
@@ -83,6 +81,7 @@ type
     procedure actPrintExecute(Sender: TObject);
     procedure actRatesExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
+    procedure btnExportClick(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -122,7 +121,8 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants, LocalizeDevExpressUnit, ExchangeRatesFUnit;
+  MLDMS_CommonConstants, LocalizeDevExpressUnit, ExchangeRatesFUnit,
+  MLDMS_CommonExportsUnit;
 
 {$R *.dfm}
 
@@ -359,7 +359,7 @@ end;
 
 procedure TMainF.CatRecChange(RecordID: integer);
 begin
-
+  FrameMostProducts.RefreshProducts(RecordID, 1);  
 end;
 
 
@@ -388,6 +388,19 @@ begin
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
+  end;
+end;
+
+procedure TMainF.btnExportClick(Sender: TObject);
+begin
+  if Sender is TComponent then
+  begin
+    case (Sender as TComponent).Tag of
+      1: CommonExports.ExportGridTo(FrameMostProducts.G1);
+      2: CommonExports.ExportGridTo(FrameMostProducts.G1, cesHTML);
+      3: CommonExports.ExportGridTo(FrameMostProducts.G1, cesXML);
+      4: CommonExports.ExportGridTo(FrameMostProducts.G1, cesTXT);
+    end;
   end;
 end;
 

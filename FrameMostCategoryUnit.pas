@@ -34,8 +34,8 @@ type
     property OnCatRecChange : TOnChangeEvent read FOnCatRecChange write FOnCatRecChange;
     constructor Create(AOwner:TComponent); override;
     procedure RefershCategory;
-
     procedure TriggerCatRecEvent(RecordID:integer);
+    function GetCurrentCategoryName: string;
   end;
 
 implementation
@@ -96,4 +96,9 @@ begin
       FOnCatRecChange(RecordID);
 end;
 function TFrameMostCategory.GetCurrentCategoryName: string;
+begin
+  Result:='';
+  If(qryCategory.Active)and(G1V1.Controller.FocusedRecord <> nil)and(G1V1.Controller.FocusedRecord is TcxGridDataRow)then
+    Result:=(G1V1.Controller.FocusedRecord.Values[G1V1CategoryName.Index]);
+end;
 end.

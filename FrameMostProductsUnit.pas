@@ -13,7 +13,7 @@ uses
   dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
   dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
-  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon;
+  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon, cxCurrencyEdit;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -30,10 +30,10 @@ type
     G1V1Price2      : TcxGridDBColumn;
     G1V1Price2VAT   : TcxGridDBColumn;
     qryProductsUpdate: TmySQLUpdateSQL;
-    G1Popup: TPopupMenu;
-    N3: TMenuItem;
     Printer1: TdxComponentPrinter;
     Printer1G1: TdxGridReportLink;
+    G1Popup: TPopupMenu;
+    N3: TMenuItem;
   private
     { Private declarations }
   public
@@ -93,17 +93,17 @@ begin
       qryProducts.SQL.Text:= lcSQL;
       qryProducts.Open;
 
-      qryProducts.Active:= True;
-      qryProducts.Edit;
+      //qryProducts.Active:= True;
+      //qryProducts.Edit;
 
-      qryProducts.First;
+      {qryProducts.First;
       while not (qryProducts.Eof) do
       begin
         qryProducts.FieldByName('Price1').Value := 2;
         qryProducts.Next;
-      end;
+      end; }
 
-      qryProducts.Post;
+      //qryProducts.Post;
     finally end;
     Screen.Cursor := crDefault;
   end

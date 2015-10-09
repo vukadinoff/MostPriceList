@@ -274,7 +274,7 @@ object MainF: TMainF
       Hint = 'MS Excel'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
+      OnClick = btnExportClick
     end
     object dxBarButton2: TdxBarButton
       Caption = 'New Button'
@@ -305,7 +305,7 @@ object MainF: TMainF
       Hint = 'HTML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
+      OnClick = btnExportClick
     end
     object btnExpToXML: TdxBarButton
       Tag = 3
@@ -314,7 +314,7 @@ object MainF: TMainF
       Hint = 'XML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
+      OnClick = btnExportClick
     end
     object btnExpToTXT: TdxBarButton
       Tag = 4
@@ -323,7 +323,7 @@ object MainF: TMainF
       Hint = 'Text file'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = OnExportClick
+      OnClick = btnExportClick
     end
     object dxBarLargeButton1: TdxBarLargeButton
       Caption = 'New Button'

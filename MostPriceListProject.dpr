@@ -4,7 +4,8 @@ uses
   Forms,
   MainFUnit in 'MainFUnit.pas' {MainF},
   FrameMostCategoryUnit in 'FrameMostCategoryUnit.pas' {FrameMostCategory: TFrame},
-  ExchangeRatesFUnit in 'ExchangeRatesFUnit.pas' {ExchangeRatesF};
+  ExchangeRatesFUnit in 'ExchangeRatesFUnit.pas' {ExchangeRatesF},
+  MLDMS_CommonExportsUnit in 'Units\MLDMS_CommonExportsUnit.pas';
 
 {$R *.res}
 
