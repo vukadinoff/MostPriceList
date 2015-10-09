@@ -67,7 +67,7 @@ object FrameMostProducts: TFrameMostProducts
     end
   end
   object dsProducts: TDataSource
-    DataSet = qryProducts
+    DataSet = DM.tblCrossRates
     Left = 120
     Top = 72
   end

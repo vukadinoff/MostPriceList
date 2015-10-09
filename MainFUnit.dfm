@@ -4716,18 +4716,18 @@ object MainF: TMainF
     Left = 499
   end
   object XMLDocument: TXMLDocument
-    Left = 889
+    Left = 873
     Top = 1
     DOMVendorDesc = 'MSXML'
   end
   object dsRates: TDataSource
     DataSet = qryRates
-    Left = 842
+    Left = 818
   end
   object qryRates: TmySQLQuery
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 914
+    Left = 930
   end
 end

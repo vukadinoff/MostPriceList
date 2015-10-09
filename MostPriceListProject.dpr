@@ -5,14 +5,13 @@ uses
   MainFUnit in 'MainFUnit.pas' {MainF},
   FrameMostCategoryUnit in 'FrameMostCategoryUnit.pas' {FrameMostCategory: TFrame},
   ExchangeRatesFUnit in 'ExchangeRatesFUnit.pas' {ExchangeRatesF},
-  DataUnit in 'DataUnit.pas' {DataUnitF};
+  DataModule in 'DataModule.pas' {DM: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
+  Application.CreateForm(TDM, DM);
   Application.CreateForm(TMainF, MainF);
-  Application.CreateForm(TExchangeRatesF, ExchangeRatesF);
-  Application.CreateForm(TDataUnitF, DataUnitF);
   Application.Run;
 end.

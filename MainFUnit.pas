@@ -29,6 +29,7 @@ type
     actOpen        : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
+    actExport      : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -64,10 +65,8 @@ type
     pnlG2Filters   : TPanel;
     lblCbCurrency  : TLabel;
     cbCurrency     : TcxComboBox;
-    dsRates: TDataSource;
-    qryRates: TmySQLQuery;
-    actExport: TAction;
-
+    dsRates        : TDataSource;
+    qryRates       : TmySQLQuery;
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -91,11 +90,12 @@ type
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
     procedure GetXMLData(fileName: TFileName);
-    function PriceParser(sPrice: string): string;
-    function CurrencyParser(sPrice: string): string;
     function IsCodeOnHand(sCode: string): Boolean;
     procedure AddNewCurrency(sCode: string);
   public
+    function PriceParser(sPrice: string): string;
+    function CurrencyParser(sPrice: string): string;
+
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);

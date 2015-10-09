@@ -42,7 +42,7 @@ implementation
 
 {$R *.dfm}
 uses
-  MainFUnit,MLDMS_CommonExportsUnit;
+  MainFUnit, MLDMS_CommonExportsUnit, DataModule;
 { TFrameMostProducts }
 const
   CRLF     = #13#10;
@@ -66,20 +66,20 @@ procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate
 const
   lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
 	        'p.name AS ProductName,                               '+CRLF+
-	        'p.price_1 AS Price1,                                 '+CRLF+
-	        '(p.price_1)*(1.2) AS Price1VAT,                      '+CRLF+
-	        'p.price_2 AS Price2,                                 '+CRLF+
-	        '(p.price_2)*(1.2) AS Price2VAT                       '+CRLF+
+	        '(p.price_1) AS Price1,                          '+CRLF+
+	        '(p.price_1)*(1.2) AS Price1VAT,                 '+CRLF+
+	        '(p.price_2) AS Price2,                          '+CRLF+
+	        '(p.price_2)*(1.2) AS Price2VAT,                 '+CRLF+
+          'p.currency_code                                      '+CRLF+
 	        'FROM Products p                                      '+CRLF+
 	        'JOIN Category c ON (c.id = p.category_id);           ';
-var
-  i: Integer;
-  c: TcxGridDBColumn;
 begin
   if MainF.dbMostPriceList.Connected then
   begin
     Screen.Cursor := crSQLWait;
-    qryProducts.Active:= False;
+    if (Assigned(MainF.qryRates)) then DM.CalculateCrossRates;
+
+    qryProducts.Active:=False;
     qryProducts.SQL.Text:= lcSQL;
     try
       qryProducts.Open;
