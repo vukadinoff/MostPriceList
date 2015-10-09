@@ -82,6 +82,42 @@ object MainF: TMainF
         OnClick = cbCurrencyClick
         Width = 57
       end
+      object lbMinValue: TcxLabel
+        Left = 457
+        Top = 17
+        Caption = #1054#1073#1093#1074#1072#1090' '#1086#1090':'
+      end
+      object edMinValue: TcxObjectSpinEdit
+        Left = 516
+        Top = 16
+        Properties.AssignedValues.DisplayFormat = True
+        Properties.AssignedValues.MinValue = True
+        Properties.ReadOnly = False
+        Properties.ValueType = vtInt
+        StyleFocused.Color = clInfoBk
+        TabOrder = 2
+        Value = 0
+        ReadOnly = False
+        PropUpdateMethod = oumOnExit
+        NullValue = '-1'
+        Width = 58
+      end
+      object edMaxValue: TcxObjectSpinEdit
+        Left = 596
+        Top = 16
+        Properties.AssignedValues.DisplayFormat = True
+        Properties.AssignedValues.EditFormat = True
+        Properties.MinValue = 1.000000000000000000
+        Properties.ReadOnly = False
+        Properties.ValueType = vtInt
+        StyleFocused.Color = clInfoBk
+        TabOrder = 3
+        Value = 1
+        ReadOnly = False
+        PropUpdateMethod = oumOnExit
+        NullValue = '-1'
+        Width = 58
+      end
     end
   end
   object cxSplitter: TcxSplitter
@@ -92,6 +128,11 @@ object MainF: TMainF
     HotZoneClassName = 'TcxXPTaskBarStyle'
     HotZone.SizePercent = 52
     Control = pnlG1Pad
+  end
+  object lbMaxValue: TcxLabel
+    Left = 914
+    Top = 60
+    Caption = #1076#1086':'
   end
   object AL1: TActionList
     Images = ilImages
@@ -4721,6 +4762,7 @@ object MainF: TMainF
       000000000000}
   end
   object PrintDialog: TPrintDialog
+    Left = 424
   end
   object dbMostPriceList: TmySQLDatabase
     Connected = True
@@ -4752,6 +4794,6 @@ object MainF: TMainF
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 914
+    Left = 930
   end
 end

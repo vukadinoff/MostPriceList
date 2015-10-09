@@ -38,7 +38,7 @@ type
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts(const CategoryID:Integer;const Rate:Double);
+    procedure RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
     procedure Print(CurrentCategory:string);
 end;
 
@@ -74,7 +74,7 @@ begin
   Printer1G1.Preview(True);
 end;
 
-procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Double);
+procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
 const
   lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
 	        'p.name AS ProductName,                               '+CRLF+

@@ -18,7 +18,8 @@ uses
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxButtonEdit, cxBarEditItem,
-  FrameMostCategoryUnit, FrameMostProductsUnit;
+  FrameMostCategoryUnit, FrameMostProductsUnit, cxTrackBar, cxLabel,
+  cxSpinEdit, cxObjectSpinEdit;
 
 
 type
@@ -69,6 +70,10 @@ type
     cbCurrency     : TcxComboBox;
     dsRates: TDataSource;
     qryRates: TmySQLQuery;
+    lbMinValue: TcxLabel;
+    lbMaxValue: TcxLabel;
+    edMinValue: TcxObjectSpinEdit;
+    edMaxValue: TcxObjectSpinEdit;
 
 
     procedure FormCreate(Sender: TObject);
@@ -359,7 +364,7 @@ end;
 
 procedure TMainF.CatRecChange(RecordID: integer);
 begin
-  FrameMostProducts.RefreshProducts(RecordID, 1);  
+  FrameMostProducts.RefreshProducts(RecordID,cbCurrency.Text,edMinValue.Value,edMaxValue.Value);
 end;
 
 
