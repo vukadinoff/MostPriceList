@@ -155,6 +155,10 @@ object MainF: TMainF
       Caption = 'actExit'
       OnExecute = actExitExecute
     end
+    object actExport: TAction
+      Caption = 'actExport'
+      ImageIndex = 81
+    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -273,10 +277,9 @@ object MainF: TMainF
       ItemLinks = <>
     end
     object btnExp: TdxBarSubItem
+      Action = actExport
       Caption = 'Export...'
       Category = 0
-      Visible = ivAlways
-      ImageIndex = 81
       LargeImageIndex = 81
       ItemLinks = <
         item
@@ -4794,6 +4797,6 @@ object MainF: TMainF
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 930
+    Left = 914
   end
 end

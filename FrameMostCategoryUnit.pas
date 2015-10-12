@@ -90,11 +90,13 @@ begin
   //send message to main form
   TriggerCatRecEvent(GetActiveRecordID);
 end;
+
 procedure TFrameMostCategory.TriggerCatRecEvent(RecordID:integer);
 begin
     if Assigned(FOnCatRecChange) then
       FOnCatRecChange(RecordID);
 end;
+
 function TFrameMostCategory.GetCurrentCategoryName: string;
 begin
   Result:='';

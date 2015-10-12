@@ -200,7 +200,7 @@ end;
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
-  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
+  //FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;
