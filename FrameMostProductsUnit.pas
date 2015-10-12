@@ -5,6 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+<<<<<<< HEAD
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
@@ -15,21 +16,26 @@ uses
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
   dxPScxExtEditorProducers, dxPSCore, dxPScxCommon,cxCurrencyEdit,
 dxSkinsDefaultPainters, dxSkinscxPCPainter;
+=======
+  cxStyles, dxSkinsCore, dxSkinsDefaultPainters, dxSkinscxPCPainter,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, DB,
+  cxDBData, cxCurrencyEdit, mySQLDbTables, cxGridLevel,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
+  cxGridCustomView, cxGrid;
+>>>>>>> master
 
 type
   TFrameMostProducts = class(TFrame)
     G1              : TcxGrid;
     G1V1            : TcxGridDBTableView;
     G1L1            : TcxGridLevel;
-    dsProducts      : TDataSource;
-    qryProducts     : TmySQLQuery;
-
     G1V1ProductID   : TcxGridDBColumn;
     G1V1ProductName : TcxGridDBColumn;
     G1V1Price1      : TcxGridDBColumn;
     G1V1Price1VAT   : TcxGridDBColumn;
     G1V1Price2      : TcxGridDBColumn;
     G1V1Price2VAT   : TcxGridDBColumn;
+<<<<<<< HEAD
     qryProductsUpdate: TmySQLUpdateSQL;
     Printer1: TdxComponentPrinter;
     Printer1G1: TdxGridReportLink;
@@ -44,19 +50,33 @@ type
     procedure RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
     procedure Print(CurrentCategory:string);
     function GetValueRange(const ValueType:Integer) : Integer;
+=======
+
+    dsProducts      : TDataSource;
+    qryProducts     : TmySQLQuery;
+  public
+    constructor Create(AOwner:TComponent); override;
+    procedure RefreshProducts(const ActiveCategoryID: Integer);
+>>>>>>> master
 end;
 
 implementation
 
 {$R *.dfm}
+
 uses
+<<<<<<< HEAD
   MainFUnit,MLDMS_CommonExportsUnit;
 { TFrameMostProducts }
 
+=======
+  MainFUnit, DataModule, MLDMS_CommonExportsUnit;
+>>>>>>> master
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
+<<<<<<< HEAD
   qryProducts.Database := MainF.dbMostPriceList;
   dsProducts.DataSet:= qryProducts;
   G1V1.DataController.DataSource := dsProducts;
@@ -181,23 +201,56 @@ const
 	        'JOIN Category c ON (c.id = p.category_id)             '+CRLF+
           'WHERE c.id = %0:d AND (Price_1 BETWEEN %1:f AND %2:f) '+CRLF+
  	        'AND Price_2 BETWEEN %1:f AND %2:f;';
+=======
+  RefreshProducts;
+end;
+
+procedure TFrameMostProducts.RefreshProducts(const ActiveCategoryID: Integer);
+const
+  lcSQL=  'SELECT p.id AS ProductID,                                                                  ' +
+	        '       p.name AS ProductName,                                                              ' +
+          '       p.currency_code,                                                                    ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price1,          ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price1VAT, ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price2,          ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price2VAT  ' +
+	        'FROM Products p                                                                            ' +
+	        'INNER JOIN Category c                                                                      ' +
+          '       ON (c.id = p.category_id)                                                           ' +
+          'WHERE (p.category_id = %d);                                                                ';
+>>>>>>> master
 var
-  i: Integer;
-  c: TcxGridDBColumn;
+  lvsReportCurrency: string;
 begin
-  if MainF.dbMostPriceList.Connected then
+  if (MainF.dbMostPriceList.Connected) then
   begin
     Screen.Cursor := crSQLWait;
+<<<<<<< HEAD
     qryProducts.Active:= False;
     qryProducts.SQL.Text:= Format(lcSQL,[CategoryID,MinValue,MaxValue]);
+=======
+    if (Assigned(MainF.qryRates)) then
+      DM.CalculateCrossRates;
+
+    lvsReportCurrency:='''/' + MainF.cbCurrency.Text + '''';
+    qryProducts.SQL.Text:= Format(lcSQL, [lvsReportCurrency, lvsReportCurrency,
+                                          lvsReportCurrency, lvsReportCurrency,
+                                          ActiveCategoryID]);
+>>>>>>> master
     try
-      qryProducts.Open;
+      qryProducts.Active:= True;
     finally end;
-    qryProducts.Active:= True;
+
     Screen.Cursor := crDefault;
-  end
-  else
-    ShowMessage('Няма връзка с базата данни');
+  end;
 end;
 
 end.

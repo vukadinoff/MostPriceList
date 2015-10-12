@@ -73,6 +73,7 @@ object FrameMostProducts: TFrameMostProducts
     Top = 72
   end
   object qryProducts: TmySQLQuery
+    Database = MainF.dbMostPriceList
     Left = 40
     Top = 72
   end

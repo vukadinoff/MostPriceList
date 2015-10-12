@@ -2,7 +2,7 @@ object MainF: TMainF
   Left = 197
   Top = 124
   Width = 1032
-  Height = 733
+  Height = 785
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,14 +20,14 @@ object MainF: TMainF
     Left = 0
     Top = 42
     Width = 329
-    Height = 653
+    Height = 705
     Align = alLeft
     TabOrder = 0
     object pnlG1: TPanel
       Left = 1
       Top = 47
       Width = 327
-      Height = 605
+      Height = 657
       Align = alClient
       TabOrder = 0
       TabStop = True
@@ -45,14 +45,14 @@ object MainF: TMainF
     Left = 337
     Top = 42
     Width = 679
-    Height = 653
+    Height = 705
     Align = alClient
     TabOrder = 5
     object pnlG2: TPanel
       Left = 1
       Top = 48
       Width = 677
-      Height = 604
+      Height = 656
       Align = alClient
       TabOrder = 0
       TabStop = True
@@ -125,7 +125,7 @@ object MainF: TMainF
     Left = 329
     Top = 42
     Width = 8
-    Height = 653
+    Height = 705
     HotZoneClassName = 'TcxXPTaskBarStyle'
     HotZone.SizePercent = 52
     Control = pnlG1Pad
@@ -159,6 +159,11 @@ object MainF: TMainF
     object actExport: TAction
       Caption = 'actExport'
       ImageIndex = 81
+    end
+    object actRates: TAction
+      Caption = 'actRates'
+      ImageIndex = 36
+      OnExecute = actRatesExecute
     end
   end
   object BM1: TdxBarManager
@@ -225,7 +230,7 @@ object MainF: TMainF
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'btnExp'
+          ItemName = 'btnExport'
         end>
       OneOnRow = True
       Row = 0
@@ -245,12 +250,6 @@ object MainF: TMainF
       SyncImageIndex = False
       ImageIndex = 4
     end
-    object btnExport: TdxBarLargeButton
-      Caption = 'Export...'
-      Category = 0
-      Visible = ivAlways
-      LargeImageIndex = 81
-    end
     object btnOpen: TdxBarLargeButton
       Action = actOpen
       Caption = 'Open...'
@@ -266,11 +265,11 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
+      Action = actRates
       Caption = 'Rates...'
       Category = 0
-      Visible = ivAlways
-      LargeImageIndex = 36
     end
+<<<<<<< HEAD
     object dxBarSubItem1: TdxBarSubItem
       Caption = 'New SubItem'
       Category = 0
@@ -394,6 +393,14 @@ object MainF: TMainF
           Default = True
           Kind = bkEllipsis
         end>
+=======
+    object btnExport: TdxBarLargeButton
+      Caption = 'Export...'
+      Category = 0
+      Hint = 'Export'
+      Visible = ivAlways
+      LargeImageIndex = 81
+>>>>>>> master
     end
   end
   object OpenDialog: TOpenDialog
@@ -4766,9 +4773,12 @@ object MainF: TMainF
       C007C0003FFFE007C00FC009FFFFF81F00000000000000000000000000000000
       000000000000}
   end
+<<<<<<< HEAD
   object PrintDialog: TPrintDialog
     Left = 424
   end
+=======
+>>>>>>> master
   object dbMostPriceList: TmySQLDatabase
     Connected = True
     DatabaseName = 'most_price_list'
@@ -4793,12 +4803,12 @@ object MainF: TMainF
   end
   object dsRates: TDataSource
     DataSet = qryRates
-    Left = 842
+    Left = 818
   end
   object qryRates: TmySQLQuery
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 914
+    Left = 954
   end
 end
