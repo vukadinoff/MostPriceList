@@ -179,8 +179,8 @@ const
 	        '(p.price_2)*(1.2) AS Price2VAT                        '+CRLF+
 	        'FROM Products p                                       '+CRLF+
 	        'JOIN Category c ON (c.id = p.category_id)             '+CRLF+
-          'WHERE c.id = %0:d AND (Price_1 BETWEEN %1:f AND %2:f) '+CRLF+
- 	        'AND Price_2 BETWEEN %1:f AND %2:f;';
+          'WHERE c.id = %0:d AND ((Price_1 BETWEEN %1:f AND %2:f) '+CRLF+
+ 	        'OR (Price_2 BETWEEN %1:f AND %2:f));';
 var
   i: Integer;
   c: TcxGridDBColumn;
