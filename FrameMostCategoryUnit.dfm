@@ -14,6 +14,8 @@ object FrameMostCategory: TFrameMostCategory
     object G1V1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnFocusedRecordChanged = G1V1FocusedRecordChanged
+      DataController.DataSource = dsCategory
+      DataController.DetailKeyFieldNames = 'CategoryID'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -38,11 +40,12 @@ object FrameMostCategory: TFrameMostCategory
     end
   end
   object qryCategory: TmySQLQuery
-    Left = 488
-    Top = 48
+    Database = MainF.dbMostPriceList
+    Left = 16
+    Top = 64
   end
   object dsCategory: TDataSource
-    Left = 568
-    Top = 48
+    Left = 88
+    Top = 64
   end
 end

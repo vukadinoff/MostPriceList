@@ -5,58 +5,45 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
-  cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
-  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, Menus, cxGrid, dxPSGlbl, dxPSUtl, dxPSEngn, dxPrnPg,
-  dxBkgnd, dxWrap, dxPrnDev, dxPSCompsProvider, dxPSFillPatterns,
-  dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
-  dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
-  dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
-  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon, dxSkinsCore,
-  dxSkinsDefaultPainters, dxSkinscxPCPainter, cxCurrencyEdit;
+  cxStyles, dxSkinsCore, dxSkinsDefaultPainters, dxSkinscxPCPainter,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, DB,
+  cxDBData, cxCurrencyEdit, mySQLDbTables, cxGridLevel,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
+  cxGridCustomView, cxGrid;
 
 type
   TFrameMostProducts = class(TFrame)
     G1              : TcxGrid;
     G1V1            : TcxGridDBTableView;
     G1L1            : TcxGridLevel;
-    dsProducts      : TDataSource;
-    qryProducts     : TmySQLQuery;
-
     G1V1ProductID   : TcxGridDBColumn;
     G1V1ProductName : TcxGridDBColumn;
     G1V1Price1      : TcxGridDBColumn;
     G1V1Price1VAT   : TcxGridDBColumn;
     G1V1Price2      : TcxGridDBColumn;
     G1V1Price2VAT   : TcxGridDBColumn;
-  private
-    { Private declarations }
+
+    dsProducts      : TDataSource;
+    qryProducts     : TmySQLQuery;
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts;
+    procedure RefreshProducts(const ActiveCategoryID: Integer);
 end;
 
 implementation
 
 {$R *.dfm}
+
 uses
-  MainFUnit, MLDMS_CommonExportsUnit, DataModule;
-{ TFrameMostProducts }
-const
-  CRLF     = #13#10;
+  MainFUnit, DataModule, MLDMS_CommonExportsUnit;
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
-  qryProducts.Database := MainF.dbMostPriceList;
-  dsProducts.DataSet:= qryProducts;
-  G1V1.DataController.DataSource := dsProducts;
-  G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
-  G1V1.OptionsView.ColumnAutoWidth:= True;
+  RefreshProducts;
 end;
 
-procedure TFrameMostProducts.RefreshProducts;
+procedure TFrameMostProducts.RefreshProducts(const ActiveCategoryID: Integer);
 const
   lcSQL=  'SELECT p.id AS ProductID,                                                                  ' +
 	        '       p.name AS ProductName,                                                              ' +
@@ -67,34 +54,35 @@ const
 	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price1VAT, ' +
-	        '       (p.price_2)*(SELECT cross_rate                                                       ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price2,          ' +
 	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price2VAT  ' +
 	        'FROM Products p                                                                            ' +
-	        'INNER JOIN Category c ON (c.id = p.category_id);                                           ';
+	        'INNER JOIN Category c                                                                      ' +
+          '       ON (c.id = p.category_id)                                                           ' +
+          'WHERE (p.category_id = %d);                                                                ';
 var
   lvsReportCurrency: string;
 begin
-  if MainF.dbMostPriceList.Connected then
+  if (MainF.dbMostPriceList.Connected) then
   begin
     Screen.Cursor := crSQLWait;
-    if (Assigned(MainF.qryRates)) then DM.CalculateCrossRates;
+    if (Assigned(MainF.qryRates)) then
+      DM.CalculateCrossRates;
 
-    qryProducts.Active:=False;
     lvsReportCurrency:='''/' + MainF.cbCurrency.Text + '''';
     qryProducts.SQL.Text:= Format(lcSQL, [lvsReportCurrency, lvsReportCurrency,
-                                          lvsReportCurrency, lvsReportCurrency]);
+                                          lvsReportCurrency, lvsReportCurrency,
+                                          ActiveCategoryID]);
     try
-      qryProducts.Open;
+      qryProducts.Active:= True;
     finally end;
-    qryProducts.Active:= True;
+
     Screen.Cursor := crDefault;
-  end
-  else
-    ShowMessage('Няма връзка с базата данни');
+  end;
 end;
 
 end.
