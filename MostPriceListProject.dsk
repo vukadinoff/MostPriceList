@@ -11,14 +11,24 @@ File_8=SourceModule,'D:\MostPriceList\price_list.pas',0,1,73,1,1,0,0
 File_9=SourceModule,'D:\MostPriceList\FrameMostPriceList.pas',0,1,1,3,51,1,0
 
 [Modules]
-Module0=D:\MostPriceList\FrameMostProductsUnit.pas
-Module1=D:\MostPriceList\DataModule.pas
-Module2=D:\MostPriceList\MainFUnit.pas
-Module3=D:\MostPriceList\FrameMostCategoryUnit.pas
-Module4=D:\MostPriceList\ExchangeRatesFUnit.pas
-Module5=D:\MostPriceList\MostPriceListProject.dpr
+Module0=D:\MostPriceList\MainFUnit.pas
+Module1=D:\MostPriceList\ExchangeRatesFUnit.pas
+Module2=D:\MostPriceList\FrameMostProductsUnit.pas
+Module3=D:\MostPriceList\DataModule.pas
+Module4=D:\MostPriceList\MostPriceListProject.dpr
+Module5=D:\MostPriceList\FrameMostCategoryUnit.pas
 Count=6
 EditWindowCount=1
+
+[D:\MostPriceList\MainFUnit.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
+[D:\MostPriceList\ExchangeRatesFUnit.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
 
 [D:\MostPriceList\FrameMostProductsUnit.pas]
 ModuleType=SourceModule
@@ -30,22 +40,12 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[D:\MostPriceList\MainFUnit.pas]
+[D:\MostPriceList\MostPriceListProject.dpr]
 ModuleType=SourceModule
-FormState=1
+FormState=0
 FormOnTop=0
 
 [D:\MostPriceList\FrameMostCategoryUnit.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\MostPriceList\ExchangeRatesFUnit.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\MostPriceList\MostPriceListProject.dpr]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -56,7 +56,7 @@ FormOnTop=0
 
 [EditWindow0]
 ViewCount=6
-CurrentView=3
+CurrentView=0
 View0=0
 View1=1
 View2=2
@@ -80,21 +80,21 @@ LeftPanelSize=140
 LeftPanelClients=CodeExplorer@EditWindow0
 LeftPanelData=000004000000000000000000000000000000000000000000000100000000000000000C000000436F64654578706C6F726572FFFFFFFF
 RightPanelSize=0
-BottomPanelSize=0
+BottomPanelSize=116
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D6573736167655669657700000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=000004000000000000000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
 
 [View0]
 Module=D:\MostPriceList\MainFUnit.pas
-CursorX=1
-CursorY=359
-TopLine=333
+CursorX=3
+CursorY=387
+TopLine=371
 LeftCol=1
 
 [View1]
 Module=D:\MostPriceList\MostPriceListProject.dpr
-CursorX=19
-CursorY=16
+CursorX=1
+CursorY=15
 TopLine=1
 LeftCol=1
 
@@ -107,16 +107,16 @@ LeftCol=1
 
 [View3]
 Module=D:\MostPriceList\FrameMostProductsUnit.pas
-CursorX=33
-CursorY=74
-TopLine=64
+CursorX=107
+CursorY=75
+TopLine=63
 LeftCol=1
 
 [View4]
 Module=D:\MostPriceList\DataModule.pas
-CursorX=1
-CursorY=66
-TopLine=1
+CursorX=27
+CursorY=25
+TopLine=25
 LeftCol=1
 
 [View5]
@@ -201,20 +201,36 @@ Visible=1
 State=0
 Left=0
 Top=482
-Width=190
+Width=252
 Height=535
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=174
+ClientWidth=236
 ClientHeight=501
 TBDockHeight=535
 LRDockWidth=190
 Dockable=1
-SplitPos=85
+SplitPos=102
 ArrangeBy=Name
-SelectedItem=Caption
-ExpandedItems=
+SelectedItem=Action
+ExpandedItems=Database
 HiddenCategories=
+
+[CallStackWindow]
+Create=1
+Visible=0
+State=0
+Left=693
+Top=444
+Width=294
+Height=161
+MaxLeft=-1
+MaxTop=-1
+ClientWidth=278
+ClientHeight=127
+TBDockHeight=161
+LRDockWidth=294
+Dockable=1
 
 [ObjectTree]
 Create=1
@@ -271,18 +287,18 @@ State=0
 Left=0
 Top=12
 Width=140
-Height=791
+Height=672
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=140
-ClientHeight=791
+ClientHeight=672
 TBDockHeight=305
 LRDockWidth=140
 Dockable=1
 
 [MessageView@EditWindow0]
 Create=1
-Visible=0
+Visible=1
 State=0
 Left=12
 Top=0

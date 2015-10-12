@@ -30,6 +30,7 @@ type
     actRefresh     : TAction;
     actPrint       : TAction;
     actExport      : TAction;
+    Action1        : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -76,8 +77,8 @@ type
     procedure actOpenExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
-    procedure actRatesExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
+    procedure Action1Execute(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -171,11 +172,6 @@ begin
     GetXMLData(OpenDialog.FileName);
   end;
   FrameMostCategory.RefershCategory;
-end;
-
-procedure TMainF.actRatesExecute(Sender: TObject);
-begin
-  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
@@ -355,7 +351,7 @@ end;
 
 procedure TMainF.CatRecChange(RecordID: integer);
 begin
-  FrameMostProducts.RefreshProducts(RecordID, 1);
+  FrameMostProducts.RefreshProducts;
 end;
 
 procedure TMainF.InitializeCbRates;
@@ -379,11 +375,17 @@ end;
 
 procedure TMainF.cbCurrencyClick(Sender: TObject);
 begin
-  if not (FrameMostProducts = nil) then
+  if (Assigned(FrameMostProducts)) then
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
+    FrameMostProducts.RefreshProducts;
   end;
+end;
+
+procedure TMainF.Action1Execute(Sender: TObject);
+begin
+//  ExchangeRatesF.ShowModal;
 end;
 
 initialization

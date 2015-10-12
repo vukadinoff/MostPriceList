@@ -18,16 +18,16 @@ object MainF: TMainF
   TextHeight = 13
   object pnlG1Pad: TPanel
     Left = 0
-    Top = 42
+    Top = 46
     Width = 329
-    Height = 653
+    Height = 649
     Align = alLeft
     TabOrder = 0
     object pnlG1: TPanel
       Left = 1
       Top = 47
       Width = 327
-      Height = 605
+      Height = 601
       Align = alClient
       TabOrder = 0
       TabStop = True
@@ -43,17 +43,18 @@ object MainF: TMainF
   end
   object pnlG2Pad: TPanel
     Left = 337
-    Top = 42
+    Top = 46
     Width = 679
-    Height = 653
+    Height = 649
     Align = alClient
     TabOrder = 5
     object pnlG2: TPanel
       Left = 1
       Top = 48
       Width = 677
-      Height = 604
+      Height = 600
       Align = alClient
+      Caption = 'rate'
       TabOrder = 0
       TabStop = True
     end
@@ -86,9 +87,9 @@ object MainF: TMainF
   end
   object cxSplitter: TcxSplitter
     Left = 329
-    Top = 42
+    Top = 46
     Width = 8
-    Height = 653
+    Height = 649
     HotZoneClassName = 'TcxXPTaskBarStyle'
     HotZone.SizePercent = 52
     Control = pnlG1Pad
@@ -118,6 +119,10 @@ object MainF: TMainF
       Caption = 'actExport'
       ImageIndex = 81
     end
+    object Action1: TAction
+      Caption = 'Action1'
+      OnExecute = Action1Execute
+    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -139,7 +144,7 @@ object MainF: TMainF
     DockControlHeights = (
       0
       0
-      42
+      46
       0)
     object BM1Bar1: TdxBar
       AllowClose = False
@@ -224,10 +229,8 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Caption = 'Rates...'
+      Action = Action1
       Category = 0
-      Visible = ivAlways
-      LargeImageIndex = 36
     end
     object dxBarSubItem1: TdxBarSubItem
       Caption = 'New SubItem'

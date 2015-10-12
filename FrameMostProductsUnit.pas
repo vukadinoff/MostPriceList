@@ -34,8 +34,7 @@ type
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts(const CategoryID:Integer;const Rate:Double);
-    procedure Print(CurrentCategory:string);
+    procedure RefreshProducts;
 end;
 
 implementation
@@ -57,22 +56,27 @@ begin
   G1V1.OptionsView.ColumnAutoWidth:= True;
 end;
 
-procedure TFrameMostProducts.Print(CurrentCategory: string);
-begin
-//
-end;
-
-procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const Rate:Double);
+procedure TFrameMostProducts.RefreshProducts;
 const
-  lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
-	        'p.name AS ProductName,                               '+CRLF+
-	        '(p.price_1) AS Price1,                          '+CRLF+
-	        '(p.price_1)*(1.2) AS Price1VAT,                 '+CRLF+
-	        '(p.price_2) AS Price2,                          '+CRLF+
-	        '(p.price_2)*(1.2) AS Price2VAT,                 '+CRLF+
-          'p.currency_code                                      '+CRLF+
-	        'FROM Products p                                      '+CRLF+
-	        'JOIN Category c ON (c.id = p.category_id);           ';
+  lcSQL=  'SELECT p.id AS ProductID,                                                                  ' +
+	        '       p.name AS ProductName,                                                              ' +
+          '       p.currency_code,                                                                    ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price1,          ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price1VAT, ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                       ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price2,          ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price2VAT  ' +
+	        'FROM Products p                                                                            ' +
+	        'INNER JOIN Category c ON (c.id = p.category_id);                                           ';
+var
+  lvsReportCurrency: string;
 begin
   if MainF.dbMostPriceList.Connected then
   begin
@@ -80,7 +84,9 @@ begin
     if (Assigned(MainF.qryRates)) then DM.CalculateCrossRates;
 
     qryProducts.Active:=False;
-    qryProducts.SQL.Text:= lcSQL;
+    lvsReportCurrency:='''/' + MainF.cbCurrency.Text + '''';
+    qryProducts.SQL.Text:= Format(lcSQL, [lvsReportCurrency, lvsReportCurrency,
+                                          lvsReportCurrency, lvsReportCurrency]);
     try
       qryProducts.Open;
     finally end;
