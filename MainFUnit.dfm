@@ -83,9 +83,9 @@ object MainF: TMainF
         Width = 57
       end
       object lbMinValue: TcxLabel
-        Left = 457
+        Left = 406
         Top = 17
-        Caption = #1054#1073#1093#1074#1072#1090' '#1086#1090':'
+        Caption = #1054#1073#1093#1074#1072#1090' '#1085#1072' '#1094#1077#1085#1072#1090#1072' '#1086#1090':'
       end
       object edMinValue: TcxObjectSpinEdit
         Left = 516
@@ -107,6 +107,7 @@ object MainF: TMainF
         Top = 16
         Properties.AssignedValues.DisplayFormat = True
         Properties.AssignedValues.EditFormat = True
+        Properties.MaxValue = 10000.000000000000000000
         Properties.MinValue = 1.000000000000000000
         Properties.ReadOnly = False
         Properties.ValueType = vtInt
@@ -277,9 +278,10 @@ object MainF: TMainF
       ItemLinks = <>
     end
     object btnExp: TdxBarSubItem
-      Action = actExport
       Caption = 'Export...'
       Category = 0
+      Visible = ivAlways
+      ImageIndex = 81
       LargeImageIndex = 81
       ItemLinks = <
         item

@@ -119,6 +119,9 @@ const
   gcDB_UserPassword = 'k6415dl';
 
   gcDefaultXMLPath  = 'D:\MostPriceList';
+  CRLF     = #13#10;
+  MIN = 1;
+  MAX = 2;
 
 var
   MainF: TMainF;
@@ -145,6 +148,9 @@ begin
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
 
+  edMinValue.Value:= FrameMostProducts.GetValueRange(MIN);
+  edMaxValue.Value:= FrameMostProducts.GetValueRange(MAX);
+  
   FrameMostCategory.OnCatRecChange:= MainF.CatRecChange;
   FrameMostCategory.TriggerCatRecEvent(1);
 end;
@@ -200,7 +206,7 @@ end;
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
-  //FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
+  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;
@@ -211,7 +217,7 @@ end;
 procedure TMainF.Notifier_ExportReport(const aExportFmt: Integer);
 begin
   inherited;
-  
+
 end;
 
 procedure TMainF.InitializeDataBase;

@@ -13,7 +13,7 @@ uses
   dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
   dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
-  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon,cxCurrencyEdit,  
+  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon,cxCurrencyEdit,
 dxSkinsDefaultPainters, dxSkinscxPCPainter;
 
 type
@@ -37,10 +37,13 @@ type
     N3: TMenuItem;
   private
     { Private declarations }
+    function RangeMaxValue(Value:double):Integer;
+    function RangeMinValue(Value:double):Integer;
   public
     constructor Create(AOwner:TComponent); override;
     procedure RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
     procedure Print(CurrentCategory:string);
+    function GetValueRange(const ValueType:Integer) : Integer;
 end;
 
 implementation
@@ -49,8 +52,7 @@ implementation
 uses
   MainFUnit,MLDMS_CommonExportsUnit;
 { TFrameMostProducts }
-const
-  CRLF     = #13#10;
+
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
@@ -62,21 +64,123 @@ begin
   G1V1.OptionsView.ColumnAutoWidth:= True;
 end;
 
-procedure TFrameMostProducts.Print(CurrentCategory: string);
+function TFrameMostProducts.GetValueRange(const ValueType:integer): Integer;
+var
+  qryRange : TmySQLQuery;
+  lvMaxPrice1, lvMaxPrice2,lvMinPrice1,lvMinPrice2:Double;
 begin
-//
+  Result:= 0;
+  Try
+    qryRange:= TmySQLQuery.Create(Self);
+    qryRange.Database:= MainF.dbMostPriceList;
+    if ValueType = MAX then
+    begin
+      qryRange.Close;
+      qryRange.SQL.Text:= 'SELECT max(Price_1) AS MaxPrice1 from Products;';
+      qryRange.Open;
+      qryRange.First;
+      lvMaxPrice1:= qryRange.FieldByName('MaxPrice1').AsFloat;
+
+      qryRange.Close;
+      qryRange.SQL.Text:= 'SELECT max(Price_2) AS MaxPrice2 from Products;';
+      qryRange.Open;
+      qryRange.First;
+      lvMaxPrice2:= qryRange.FieldByName('MaxPrice2').AsFloat;
+
+      if lvMaxPrice1>=lvMaxPrice2 then
+        Result:= RangeMaxValue(lvMaxPrice1)
+      else
+        Result:= RangeMaxValue(lvMaxPrice2);
+    end
+    else
+      if ValueType = MIN then
+      begin
+        qryRange.Close;
+        qryRange.SQL.Text:= 'SELECT min(Price_1) AS MinPrice1 from Products;';
+        qryRange.Open;
+        qryRange.First;
+        lvMinPrice1:= qryRange.FieldByName('MinPrice1').AsFloat;
+
+        qryRange.Close;
+        qryRange.SQL.Text:= 'SELECT min(Price_2) AS MinPrice2 from Products;';
+        qryRange.Open;
+        qryRange.First;
+        lvMinPrice2:= qryRange.FieldByName('MinPrice2').AsFloat;
+
+        if lvMinPrice1<=lvMinPrice2 then
+          Result:= RangeMinValue(lvMinPrice1)
+        else
+          Result:= RangeMinValue(lvMinPrice2);
+      end;
+  Finally
+    qryRange.Free;
+  end;
+end;
+
+procedure TFrameMostProducts.Print(CurrentCategory: string);
+var
+ lvLabel:string;
+begin
+  lvLabel:= 'Категория: "'+CurrentCategory+'"';
+  Printer1G1.ReportTitle.Font.Name:= 'Arial';
+  Printer1G1.ReportTitle.Text:=lvLabel;
+  Printer1G1.PrinterPage.PageFooter.Font.Style:= Printer1G1.PrinterPage.PageFooter.Font.Style+[fsItalic];
+  Printer1G1.PrinterPage.PageFooter.LeftTitle.Text:= lvLabel;
+  Printer1G1.Preview(True);
+end;
+
+function TFrameMostProducts.RangeMaxValue(Value: double): Integer;
+var
+  lvValueStr:string;
+  lvValue:Double;
+  DotPosition:Integer;
+begin
+  Result:= 5000;
+  lvValue:= Value+1;
+  lvValueStr:= FloatToStr(lvValue);
+  DotPosition:= Pos('.',lvValueStr);
+  if DotPosition>0 then
+    TryStrToInt(Copy(lvValueStr,0,DotPosition-1),Result)
+  else
+    TryStrToInt(lvValueStr,Result);
+end;
+
+function TFrameMostProducts.RangeMinValue(Value: double): Integer;
+var
+  lvValueStr:string;
+  lvValue:Double;
+  DotPosition:Integer;
+begin
+  Result:=0;
+  lvValue:= Value;
+  lvValueStr:= FloatToStr(lvValue);
+  if lvValueStr[1] = '0' then
+    Result:=0
+  else
+  begin
+    lvValue:= lvValue-1;
+    lvValueStr:= FloatToStr(lvValue);
+    DotPosition:= Pos('.',lvValueStr);
+    if DotPosition>0 then
+      TryStrToInt(Copy(lvValueStr,0,DotPosition-1),Result)
+    else
+      TryStrToInt(lvValueStr,Result);
+  end;
+
 end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
 const
-  lcSQL=  'SELECT p.id AS ProductID,                            '+CRLF+
-	        'p.name AS ProductName,                               '+CRLF+
-	        'p.price_1 AS Price1,                                 '+CRLF+
-	        '(p.price_1)*(1.2) AS Price1VAT,                      '+CRLF+
-	        'p.price_2 AS Price2,                                 '+CRLF+
-	        '(p.price_2)*(1.2) AS Price2VAT                       '+CRLF+
-	        'FROM Products p                                      '+CRLF+
-	        'JOIN Category c ON (c.id = p.category_id);           ';
+  lcSQL=  'SELECT p.id AS ProductID,                             '+CRLF+
+	        'p.name AS ProductName,                                '+CRLF+
+	        'p.price_1 AS Price1,                                  '+CRLF+
+	        '(p.price_1)*(1.2) AS Price1VAT,                       '+CRLF+
+	        'p.price_2 AS Price2,                                  '+CRLF+
+	        '(p.price_2)*(1.2) AS Price2VAT                        '+CRLF+
+	        'FROM Products p                                       '+CRLF+
+	        'JOIN Category c ON (c.id = p.category_id)             '+CRLF+
+          'WHERE c.id = %0:d AND (Price_1 BETWEEN %1:f AND %2:f) '+CRLF+
+ 	        'AND Price_2 BETWEEN %1:f AND %2:f;';
 var
   i: Integer;
   c: TcxGridDBColumn;
@@ -85,10 +189,9 @@ begin
   begin
     Screen.Cursor := crSQLWait;
     qryProducts.Active:= False;
-    qryProducts.SQL.Text:= lcSQL;
+    qryProducts.SQL.Text:= Format(lcSQL,[CategoryID,MinValue,MaxValue]);
     try
       qryProducts.Open;
-      qryProducts.Post;
     finally end;
     qryProducts.Active:= True;
     Screen.Cursor := crDefault;
