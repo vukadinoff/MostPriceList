@@ -3,13 +3,24 @@ unit MainFUnit;
 interface
 
 uses
-  SysUtils, StrUtils, Forms, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
-  dxSkinsDefaultPainters, dxSkinsdxBarPainter, xmldom, XMLIntf, DB,
-  mySQLDbTables, msxmldom, XMLDoc, Dialogs, ImgList, Controls, dxBar,
-  cxClasses, Classes, ActnList, cxSplitter, cxTextEdit, cxMaskEdit,
-  cxDropDownEdit, StdCtrls, ExtCtrls, FrameMostCategoryUnit,
-  FrameMostProductsUnit, ExchangeRatesFUnit;
+  ActnList, Classes, SysUtils, StrUtils, DateUtils, Controls, ExtCtrls, Forms, ImgList,
+  dxSkinsdxBarPainter, dxSkinsDefaultPainters, Dialogs, dxBar,
+  cxClasses, dxPSGlbl, dxPSUtl, dxPSEngn, dxPrnPg, dxBkgnd, dxWrap,
+  dxPrnDev, dxPSCompsProvider, dxPSFillPatterns, dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport,
+  cxDrawTextUtils, dxSkinscxPCPainter, dxPSPrVwStd, dxPSPrVwAdv,
+  dxPSPrVwRibbon, dxPScxPageControlProducer, dxPScxGridLnk,
+  dxPScxGridLayoutViewLnk, dxPScxEditorProducers, dxPScxExtEditorProducers,
+  dxSkinsdxRibbonPainter, dxPSCore, dxPScxCommon, dxSkinsCore,
+  DB, mySQLDbTables, xmldom, XMLIntf, StdCtrls, msxmldom, XMLDoc, FMTBcd, SqlExpr,
+  MegalanMySQLConnectionUnit, MySQLBatch, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxSplitter, cxContainer, cxEdit,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxGrid, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxButtonEdit, cxBarEditItem,
+  FrameMostCategoryUnit, FrameMostProductsUnit, cxTrackBar, cxLabel,
+  cxSpinEdit, cxObjectSpinEdit;
+
 
 type
   TMainF = class(TForm)
@@ -17,10 +28,8 @@ type
     AL1            : TActionList;
     actExit        : TAction;
     actOpen        : TAction;
-    actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
-    actExport      : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -29,10 +38,26 @@ type
     btnRates       : TdxBarLargeButton;
     btnRefresh     : TdxBarLargeButton;
     btnPrint       : TdxBarLargeButton;
+    btnExport      : TdxBarLargeButton;
     ilImages       : TImageList;
 
     OpenDialog     : TOpenDialog;
+    PrintDialog    : TPrintDialog;
     XMLDocument    : TXMLDocument;
+    dxBarSubItem1: TdxBarSubItem;
+    btnExp: TdxBarSubItem;
+    dxBarSubItem3: TdxBarSubItem;
+    dxBarSubItem4: TdxBarSubItem;
+    btnExpToExcel: TdxBarButton;
+    dxBarButton2: TdxBarButton;
+    dxBarListItem1: TdxBarListItem;
+    dxBarSeparator1: TdxBarSeparator;
+    btnExpToHTML: TdxBarButton;
+    btnExpToXML: TdxBarButton;
+    btnExpToTXT: TdxBarButton;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxBarButton1: TdxBarButton;
+    cxBarEditItem1: TcxBarEditItem;
 
     pnlG1Pad       : TPanel;
     pnlG1          : TPanel;
@@ -43,9 +68,13 @@ type
     pnlG2Filters   : TPanel;
     lblCbCurrency  : TLabel;
     cbCurrency     : TcxComboBox;
-    dsRates        : TDataSource;
-    qryRates       : TmySQLQuery;
-    btnExport: TdxBarLargeButton;
+    dsRates: TDataSource;
+    qryRates: TmySQLQuery;
+    lbMinValue: TcxLabel;
+    lbMaxValue: TcxLabel;
+    edMinValue: TcxObjectSpinEdit;
+    edMaxValue: TcxObjectSpinEdit;
+
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -53,13 +82,14 @@ type
 
     procedure actExitExecute(Sender: TObject);
     procedure actOpenExecute(Sender: TObject);
-    procedure actRatesExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
+    procedure actRatesExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
+    procedure btnExportClick(Sender: TObject);
   private
-    FrameMostProducts: TFrameMostProducts;
-    FrameMostCategory: TFrameMostCategory;
+    FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
+    FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
   private
     procedure InitializeDataBase;
     function OpenDatabase: Boolean;
@@ -68,21 +98,17 @@ type
     procedure myQueryExecute(aSQL: string);
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
-    procedure ParseXMLFile(fileName: TFileName);
+    procedure GetXMLData(fileName: TFileName);
+    function PriceParser(sPrice: string): string;
+    function CurrencyParser(sPrice: string): string;
     function IsCodeOnHand(sCode: string): Boolean;
     procedure AddNewCurrency(sCode: string);
   public
-    function GetActiveCategoryID: Integer;
-
-    function PriceParser(sPrice: string): string;
-    function CurrencyParser(sPrice: string): string;
-
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);
-  published
-    property ActiveCategoryID: Integer read  FActiveCategoryID
-                                       write FActiveCategoryID;
+  public
+    procedure CatRecChange(RecordID:integer);
 end;
 
 const
@@ -93,6 +119,9 @@ const
   gcDB_UserPassword = 'k6415dl';
 
   gcDefaultXMLPath  = 'D:\MostPriceList';
+  CRLF     = #13#10;
+  MIN = 1;
+  MAX = 2;
 
 var
   MainF: TMainF;
@@ -100,14 +129,15 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants, LocalizeDevExpressUnit;
+  MLDMS_CommonConstants, LocalizeDevExpressUnit, ExchangeRatesFUnit,
+  MLDMS_CommonExportsUnit;
 
 {$R *.dfm}
 
 procedure TMainF.FormCreate(Sender: TObject);
 begin
   if not (OpenDatabase) then
-    Exit;
+    Exit;// If Open Database process fail then application terminate
   InitializeCbRates;
 
   FrameMostCategory := TFrameMostCategory.Create(MainF);
@@ -117,13 +147,18 @@ begin
   FrameMostProducts := TFrameMostProducts.Create(MainF);
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
+
+  edMinValue.Value:= FrameMostProducts.GetValueRange(MIN);
+  edMaxValue.Value:= FrameMostProducts.GetValueRange(MAX);
+  
+  FrameMostCategory.OnCatRecChange:= MainF.CatRecChange;
+  FrameMostCategory.TriggerCatRecEvent(1);
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
 begin
-  FrameMostProducts.G1V1.DataController.FocusedRowIndex := 0;
-  FrameMostCategory.G1V1.DataController.FocusedRowIndex := 0;
-  FrameMostCategory.G1.SetFocus;
+  //FrameMostPriceList.G1.SetFocus;
+  //FrameMostPriceList.G1V1.DataController.FocusedRowIndex := 0;
 end;
 
 procedure TMainF.FormDestroy;
@@ -148,9 +183,9 @@ begin
   begin
     DropTablesFromDB;
     CreateTablesInDB;
-    ParseXMLFile(OpenDialog.FileName);
+    GetXMLData(OpenDialog.FileName);
   end;
-  Notifier_RefreshAll;
+  FrameMostCategory.RefershCategory;
 end;
 
 procedure TMainF.actRatesExecute(Sender: TObject);
@@ -171,22 +206,18 @@ end;
 procedure TMainF.Notifier_PrintReport;
 begin
   inherited;
-end;
-
-function GetActiveCategoryID: Integer;
-begin
-  Result:=FrameMostCategory
+  FrameMostProducts.Print(FrameMostCategory.GetCurrentCategoryName);
 end;
 
 procedure TMainF.Notifier_RefreshAll;
 begin
-  FrameMostCategory.RefreshCategory;
-  FrameMostProducts.RefreshProducts(GetActiveCategoryID);
+  FrameMostCategory.RefershCategory;
 end;
 
 procedure TMainF.Notifier_ExportReport(const aExportFmt: Integer);
 begin
   inherited;
+
 end;
 
 procedure TMainF.InitializeDataBase;
@@ -277,7 +308,7 @@ begin
   Result := LeftStr(sPrice, Pos(' ', sPrice));
 end;
 
-procedure TMainF.ParseXMLFile(fileName: TFileName);
+procedure TMainF.GetXMLData(fileName: TFileName);
 var
   lvNode                : IXMLNode;
   lvsInsertCategoryData : WideString;
@@ -337,6 +368,12 @@ begin
   end;
 end;
 
+procedure TMainF.CatRecChange(RecordID: integer);
+begin
+  FrameMostProducts.RefreshProducts(RecordID,cbCurrency.Text,edMinValue.Value,edMaxValue.Value);
+end;
+
+
 procedure TMainF.InitializeCbRates;
 begin
   Screen.Cursor := crSQLWait;
@@ -358,11 +395,23 @@ end;
 
 procedure TMainF.cbCurrencyClick(Sender: TObject);
 begin
-  if (Assigned(FrameMostProducts)) then
+  if not (FrameMostProducts = nil) then
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
-    Notifier_RefreshAll;
+  end;
+end;
+
+procedure TMainF.btnExportClick(Sender: TObject);
+begin
+  if Sender is TComponent then
+  begin
+    case (Sender as TComponent).Tag of
+      1: CommonExports.ExportGridTo(FrameMostProducts.G1);
+      2: CommonExports.ExportGridTo(FrameMostProducts.G1, cesHTML);
+      3: CommonExports.ExportGridTo(FrameMostProducts.G1, cesXML);
+      4: CommonExports.ExportGridTo(FrameMostProducts.G1, cesTXT);
+    end;
   end;
 end;
 

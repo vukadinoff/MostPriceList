@@ -20,22 +20,29 @@ Module5=D:\MostPriceList\ExchangeRatesFUnit.pas
 Count=6
 EditWindowCount=1
 
+<<<<<<< .mine
+
+
+
+
+
+=======
 [D:\MostPriceList\MainFUnit.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
+>>>>>>> .theirs
 [D:\MostPriceList\Units\IOModule.pas]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+<<<<<<< .mine
+[D:\MostPriceList\MostPriceListProject.dpr]
+=======
 [D:\MostPriceList\Units\DataModule.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
-[D:\MostPriceList\FrameMostCategoryUnit.pas]
+>>>>>>> .theirs
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -43,6 +50,15 @@ FormOnTop=0
 [D:\MostPriceList\FrameMostProductsUnit.pas]
 ModuleType=SourceModule
 FormState=0
+FormOnTop=0
+
+<<<<<<< .mine
+[D:\MostPriceList\FrameMostCategoryUnit.pas]
+=======
+[D:\MostPriceList\FrameMostProductsUnit.pas]
+>>>>>>> .theirs
+ModuleType=SourceModule
+FormState=1
 FormOnTop=0
 
 [D:\MostPriceList\ExchangeRatesFUnit.pas]
@@ -59,13 +75,17 @@ FormState=0
 FormOnTop=0
 
 [EditWindow0]
+<<<<<<< .mine
+ViewCount=4
+CurrentView=0
+=======
 ViewCount=6
 CurrentView=0
+>>>>>>> .theirs
 View0=0
 View1=1
 View2=2
 View3=3
-View4=4
 View5=5
 CodeExplorer=CodeExplorer@EditWindow0
 MessageView=MessageView@EditWindow0
@@ -90,12 +110,27 @@ BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000
 
 [View0]
 Module=D:\MostPriceList\MainFUnit.pas
+<<<<<<< .mine
+CursorX=57
+CursorY=106
+TopLine=71
+=======
 CursorX=30
 CursorY=307
 TopLine=322
+>>>>>>> .theirs
 LeftCol=1
 
 [View1]
+<<<<<<< .mine
+
+
+
+
+
+
+
+=======
 Module=D:\MostPriceList\FrameMostCategoryUnit.pas
 CursorX=33
 CursorY=38
@@ -103,23 +138,34 @@ TopLine=61
 LeftCol=1
 
 [View2]
+>>>>>>> .theirs
 Module=D:\MostPriceList\FrameMostProductsUnit.pas
 CursorX=62
 CursorY=81
 TopLine=65
 LeftCol=1
 
-[View3]
+[View2]
 Module=D:\MostPriceList\ExchangeRatesFUnit.pas
 CursorX=1
+<<<<<<< .mine
+CursorY=20
+TopLine=4
+=======
 CursorY=13
 TopLine=1
+>>>>>>> .theirs
 LeftCol=1
 
-[View4]
+[View3]
 Module=D:\MostPriceList\Units\DataModule.pas
+<<<<<<< .mine
+CursorX=27
+CursorY=1
+=======
 CursorX=1
 CursorY=1
+>>>>>>> .theirs
 TopLine=1
 LeftCol=1
 
@@ -132,7 +178,7 @@ LeftCol=1
 
 [Watches]
 Count=1
-Watch0='lvsNodeText',256,0,18,1,0,'Watches'
+Watch0='s',256,0,18,1,0,'Watches'
 
 [Breakpoints]
 Count=0
@@ -199,8 +245,13 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
+<<<<<<< .mine
+SelectedItem=MultiThreaded
+ExpandedItems=
+=======
 SelectedItem=Name
 ExpandedItems=
+>>>>>>> .theirs
 HiddenCategories=
 
 [ObjectTree]
