@@ -18,7 +18,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxButtonEdit, cxBarEditItem,
-  FrameMostCategoryUnit, FrameMostProductsUnit, cxTrackBar, cxLabel,
+  FrameMostCategoryUnit, FrameMostProductsUnit,ExchangeRatesFUnit, cxTrackBar, cxLabel,
   cxSpinEdit, cxObjectSpinEdit;
 
 
@@ -28,10 +28,10 @@ type
     AL1            : TActionList;
     actExit        : TAction;
     actOpen        : TAction;
+    actRates       : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
     actExport      : TAction;
-    Action1        : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -84,14 +84,15 @@ type
 
     procedure actExitExecute(Sender: TObject);
     procedure actOpenExecute(Sender: TObject);
+    procedure actRatesExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
-	procedure Action1Execute(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
+    procedure CatRecChange(RecordID:integer);
   private
     procedure InitializeDataBase;
     function OpenDatabase: Boolean;
@@ -100,7 +101,7 @@ type
     procedure myQueryExecute(aSQL: string);
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
-    procedure GetXMLData(fileName: TFileName);
+    procedure ParseXMLFile(fileName: TFileName);
     function IsCodeOnHand(sCode: string): Boolean;
     procedure AddNewCurrency(sCode: string);
   public
@@ -112,7 +113,7 @@ type
     procedure Notifier_ExportReport(const aExportFmt:Integer);
     procedure InitPriceRangeEdits;
   public
-    procedure CatRecChange(RecordID:integer);
+
 end;
 
 const
@@ -133,8 +134,7 @@ var
 implementation
 
 uses
-  MLDMS_CommonConstants, LocalizeDevExpressUnit, ExchangeRatesFUnit,
-  MLDMS_CommonExportsUnit;
+  MLDMS_CommonConstants, LocalizeDevExpressUnit, MLDMS_CommonExportsUnit;
 
 {$R *.dfm}
 
@@ -159,8 +159,9 @@ end;
 
 procedure TMainF.FormActivate(Sender: TObject);
 begin
-  //FrameMostPriceList.G1.SetFocus;
-  //FrameMostPriceList.G1V1.DataController.FocusedRowIndex := 0;
+  FrameMostProducts.G1V1.DataController.FocusedRowIndex := 0;
+  FrameMostCategory.G1V1.DataController.FocusedRowIndex := 0;
+  FrameMostCategory.G1.SetFocus;
 end;
 
 procedure TMainF.FormDestroy;
@@ -185,9 +186,14 @@ begin
   begin
     DropTablesFromDB;
     CreateTablesInDB;
-    GetXMLData(OpenDialog.FileName);
+	ParseXMLFile(OpenDialog.FileName);
   end;
   FrameMostCategory.RefershCategory;
+end;
+
+procedure TMainF.actRatesExecute(Sender: TObject);
+begin
+  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
@@ -305,7 +311,7 @@ begin
   Result := LeftStr(sPrice, Pos(' ', sPrice));
 end;
 
-procedure TMainF.GetXMLData(fileName: TFileName);
+procedure TMainF.ParseXMLFile(fileName: TFileName);
 var
   lvNode                : IXMLNode;
   lvsInsertCategoryData : WideString;
@@ -412,11 +418,6 @@ begin
       4: CommonExports.ExportGridTo(FrameMostProducts.G1, cesTXT);
     end;
   end;
-end;
-
-procedure TMainF.Action1Execute(Sender: TObject);
-begin
-//  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.InitPriceRangeEdits;

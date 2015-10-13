@@ -161,9 +161,10 @@ object MainF: TMainF
       Caption = 'actExport'
       ImageIndex = 81
     end
-    object Action1: TAction
-      Caption = 'Action1'
-      OnExecute = Action1Execute
+    object actRates: TAction
+      Caption = 'actRates'
+      ImageIndex = 36
+      OnExecute = actRatesExecute
     end
   end
   object BM1: TdxBarManager
@@ -211,6 +212,11 @@ object MainF: TMainF
           BeginGroup = True
           Visible = True
           ItemName = 'btnOpen'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnRates'
         end
         item
           BeginGroup = True
@@ -266,7 +272,8 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Action = Action1
+      Action = actRates
+      Caption = 'Rates...'
       Category = 0
     end
     object dxBarSubItem1: TdxBarSubItem
