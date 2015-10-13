@@ -71,7 +71,7 @@ const
 	        'INNER JOIN Category AS c                                                                   ' +
           '        ON (c.id = p.category_id)                                                          ' +
           'WHERE ((p.category_id = %d) AND                                                            ' +
-          '      ((p.price_1 BETWEEN %f AND %f) OR (p.price_2 BETWEEN %f AND %f)));                   ';
+          '      ((Price1 BETWEEN %f AND %f) OR (p.price_2 BETWEEN %f AND %f)));                   ';
 var
   lvsReportCurrency: string;
 begin
