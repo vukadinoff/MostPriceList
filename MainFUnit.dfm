@@ -47,7 +47,7 @@ object MainF: TMainF
     Width = 679
     Height = 705
     Align = alClient
-    TabOrder = 5
+    TabOrder = 4
     object pnlG2: TPanel
       Left = 1
       Top = 48
@@ -82,43 +82,6 @@ object MainF: TMainF
         OnClick = cbCurrencyClick
         Width = 57
       end
-      object lbMinValue: TcxLabel
-        Left = 406
-        Top = 17
-        Caption = #1054#1073#1093#1074#1072#1090' '#1085#1072' '#1094#1077#1085#1072#1090#1072' '#1086#1090':'
-      end
-      object edMinValue: TcxObjectSpinEdit
-        Left = 516
-        Top = 16
-        Properties.AssignedValues.DisplayFormat = True
-        Properties.AssignedValues.MinValue = True
-        Properties.ReadOnly = False
-        Properties.ValueType = vtInt
-        StyleFocused.Color = clInfoBk
-        TabOrder = 2
-        Value = 0
-        ReadOnly = False
-        PropUpdateMethod = oumOnExit
-        NullValue = '-1'
-        Width = 58
-      end
-      object edMaxValue: TcxObjectSpinEdit
-        Left = 596
-        Top = 16
-        Properties.AssignedValues.DisplayFormat = True
-        Properties.AssignedValues.EditFormat = True
-        Properties.MaxValue = 10000.000000000000000000
-        Properties.MinValue = 1.000000000000000000
-        Properties.ReadOnly = False
-        Properties.ValueType = vtInt
-        StyleFocused.Color = clInfoBk
-        TabOrder = 3
-        Value = 1
-        ReadOnly = False
-        PropUpdateMethod = oumOnExit
-        NullValue = '-1'
-        Width = 58
-      end
     end
   end
   object cxSplitter: TcxSplitter
@@ -129,11 +92,6 @@ object MainF: TMainF
     HotZoneClassName = 'TcxXPTaskBarStyle'
     HotZone.SizePercent = 52
     Control = pnlG1Pad
-  end
-  object lbMaxValue: TcxLabel
-    Left = 914
-    Top = 60
-    Caption = #1076#1086':'
   end
   object AL1: TActionList
     Images = ilImages
@@ -226,11 +184,6 @@ object MainF: TMainF
           BeginGroup = True
           Visible = True
           ItemName = 'btnPrint'
-        end
-        item
-          BeginGroup = True
-          Visible = True
-          ItemName = 'btnExport'
         end>
       OneOnRow = True
       Row = 0
@@ -269,7 +222,6 @@ object MainF: TMainF
       Caption = 'Rates...'
       Category = 0
     end
-<<<<<<< HEAD
     object dxBarSubItem1: TdxBarSubItem
       Caption = 'New SubItem'
       Category = 0
@@ -319,7 +271,6 @@ object MainF: TMainF
       Hint = 'MS Excel'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = btnExportClick
     end
     object dxBarButton2: TdxBarButton
       Caption = 'New Button'
@@ -350,7 +301,6 @@ object MainF: TMainF
       Hint = 'HTML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = btnExportClick
     end
     object btnExpToXML: TdxBarButton
       Tag = 3
@@ -359,7 +309,6 @@ object MainF: TMainF
       Hint = 'XML'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = btnExportClick
     end
     object btnExpToTXT: TdxBarButton
       Tag = 4
@@ -368,7 +317,6 @@ object MainF: TMainF
       Hint = 'Text file'
       Visible = ivAlways
       ImageIndex = 81
-      OnClick = btnExportClick
     end
     object dxBarLargeButton1: TdxBarLargeButton
       Caption = 'New Button'
@@ -381,26 +329,6 @@ object MainF: TMainF
       Category = 0
       Hint = 'New Button'
       Visible = ivAlways
-    end
-    object cxBarEditItem1: TcxBarEditItem
-      Caption = 'New Item'
-      Category = 0
-      Hint = 'New Item'
-      Visible = ivAlways
-      PropertiesClassName = 'TcxButtonEditProperties'
-      Properties.Buttons = <
-        item
-          Default = True
-          Kind = bkEllipsis
-        end>
-=======
-    object btnExport: TdxBarLargeButton
-      Caption = 'Export...'
-      Category = 0
-      Hint = 'Export'
-      Visible = ivAlways
-      LargeImageIndex = 81
->>>>>>> master
     end
   end
   object OpenDialog: TOpenDialog
@@ -4773,12 +4701,6 @@ object MainF: TMainF
       C007C0003FFFE007C00FC009FFFFF81F00000000000000000000000000000000
       000000000000}
   end
-<<<<<<< HEAD
-  object PrintDialog: TPrintDialog
-    Left = 424
-  end
-=======
->>>>>>> master
   object dbMostPriceList: TmySQLDatabase
     Connected = True
     DatabaseName = 'most_price_list'

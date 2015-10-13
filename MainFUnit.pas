@@ -45,7 +45,6 @@ type
     cbCurrency     : TcxComboBox;
     dsRates        : TDataSource;
     qryRates       : TmySQLQuery;
-    btnExport: TdxBarLargeButton;
 
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -366,5 +365,4 @@ end;
 
 initialization
   Setup_QuantumGridsResources;
-
 end.

@@ -14,7 +14,8 @@ uses
   dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
   dxPScxExtEditorProducers, dxPSCore, dxPScxCommon, dxSkinsCore,
-  dxSkinsDefaultPainters, dxSkinscxPCPainter, cxCurrencyEdit;
+  dxSkinsDefaultPainters, dxSkinscxPCPainter, cxCurrencyEdit,
+  dxSkinsdxBarPainter, dxSkinsdxRibbonPainter;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -67,7 +68,7 @@ const
 	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price1VAT, ' +
-	        '       (p.price_2)*(SELECT cross_rate                                                       ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s)) AS Price2,          ' +
 	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
