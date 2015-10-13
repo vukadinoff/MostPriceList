@@ -92,7 +92,7 @@ object ExchangeRatesF: TExchangeRatesF
   end
   object dsDataSource: TDataSource
     DataSet = tblExchangeRates
-    Left = 136
+    Left = 376
     Top = 152
   end
 end
