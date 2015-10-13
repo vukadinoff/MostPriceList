@@ -77,7 +77,6 @@ procedure TFrameMostCategory.G1V1FocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord;
   ANewItemRecordFocusingChanged: Boolean);
 begin
-  MainF.Notifier_RefreshAll;
   TriggerCatRecEvent(GetActiveRecordID);
 end;
 
