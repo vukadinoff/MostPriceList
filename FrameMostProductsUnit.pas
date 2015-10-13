@@ -3,19 +3,12 @@ unit FrameMostProductsUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
-  cxNavigator, DB, cxDBData, mySQLDbTables, cxGridLevel, cxClasses,
-  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, Menus, cxGrid, dxPSGlbl, dxPSUtl, dxPSEngn, dxPrnPg,
-  dxBkgnd, dxWrap, dxPrnDev, dxPSCompsProvider, dxPSFillPatterns,
-  dxPSEdgePatterns, dxPSPDFExportCore, dxPSPDFExport, cxDrawTextUtils,
-  dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
-  dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
-  dxPScxExtEditorProducers, dxPSCore, dxPScxCommon, dxSkinsCore,
-  dxSkinsDefaultPainters, dxSkinscxPCPainter, cxCurrencyEdit,
-  dxSkinsdxBarPainter, dxSkinsdxRibbonPainter;
+  Forms, SysUtils, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxStyles, dxSkinsCore, dxSkinsDefaultPainters, dxSkinscxPCPainter,
+  cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator, DB,
+  cxDBData, cxCurrencyEdit, mySQLDbTables, cxGridLevel,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
+  cxGridCustomView, Classes, Controls, cxGrid;
 
 type
   TFrameMostProducts = class(TFrame)
@@ -35,29 +28,29 @@ type
     { Private declarations }
   public
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshProducts;
+    procedure RefreshProducts(const CategoryID: Integer;
+                              const ReportCurrency: string;
+                              const min_price: Double;
+                              const max_price: Double);
 end;
 
 implementation
 
 {$R *.dfm}
+
 uses
-  MainFUnit, MLDMS_CommonExportsUnit, DataModule;
-{ TFrameMostProducts }
-const
-  CRLF     = #13#10;
+  MainFUnit, DataModule, MLDMS_CommonExportsUnit;
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
   inherited;
-  qryProducts.Database := MainF.dbMostPriceList;
-  dsProducts.DataSet:= qryProducts;
-  G1V1.DataController.DataSource := dsProducts;
-  G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
-  G1V1.OptionsView.ColumnAutoWidth:= True;
+  RefreshProducts(4, 'BGN', 0, 1000);
 end;
 
-procedure TFrameMostProducts.RefreshProducts;
+procedure TFrameMostProducts.RefreshProducts(const CategoryID: Integer;
+                                             const ReportCurrency: string;
+                                             const min_price: Double;
+                                             const max_price: Double);
 const
   lcSQL=  'SELECT p.id AS ProductID,                                                                  ' +
 	        '       p.name AS ProductName,                                                              ' +
@@ -75,7 +68,10 @@ const
           '                    FROM CrossRates                                                        ' +
           '                    WHERE currency_pair = CONCAT(p.currency_code, %s))*(1.2) AS Price2VAT  ' +
 	        'FROM Products p                                                                            ' +
-	        'INNER JOIN Category c ON (c.id = p.category_id);                                           ';
+	        'INNER JOIN Category AS c                                                                   ' +
+          '        ON (c.id = p.category_id)                                                          ' +
+          'WHERE ((p.category_id = %d) AND                                                            ' +
+          '      ((p.price_1 BETWEEN %f AND %f) OR (p.price_2 BETWEEN %f AND %f)));                   ';
 var
   lvsReportCurrency: string;
 begin
@@ -85,17 +81,17 @@ begin
     if (Assigned(MainF.qryRates)) then DM.CalculateCrossRates;
 
     qryProducts.Active:=False;
-    lvsReportCurrency:='''/' + MainF.cbCurrency.Text + '''';
+    lvsReportCurrency:='''/' + ReportCurrency + '''';
     qryProducts.SQL.Text:= Format(lcSQL, [lvsReportCurrency, lvsReportCurrency,
-                                          lvsReportCurrency, lvsReportCurrency]);
+                                          lvsReportCurrency, lvsReportCurrency,
+                                          CategoryID, min_price, max_price,
+                                          min_price, max_price]);
     try
       qryProducts.Open;
     finally end;
     qryProducts.Active:= True;
     Screen.Cursor := crDefault;
-  end
-  else
-    ShowMessage('Няма връзка с базата данни');
+  end;
 end;
 
 end.

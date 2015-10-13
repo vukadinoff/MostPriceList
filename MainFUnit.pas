@@ -59,6 +59,7 @@ type
   private
     FrameMostProducts: TFrameMostProducts;
     FrameMostCategory: TFrameMostCategory;
+    procedure CatRecChange(RecordID: Integer);
   private
     procedure InitializeDataBase;
     function OpenDatabase: Boolean;
@@ -71,8 +72,6 @@ type
     function IsCodeOnHand(sCode: string): Boolean;
     procedure AddNewCurrency(sCode: string);
   public
-//    function GetActiveCategoryID: Integer;
-
     function PriceParser(sPrice: string): string;
     function CurrencyParser(sPrice: string): string;
 
@@ -113,6 +112,8 @@ begin
   FrameMostProducts := TFrameMostProducts.Create(MainF);
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
+
+
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
@@ -130,6 +131,11 @@ begin
     FrameMostCategory.Free;
   if Assigned(dbMostPriceList)then
     dbMostPriceList.Free;
+end;
+
+procedure TMainF.CatRecChange(RecordID: Integer);
+begin
+  FrameMostProducts.RefreshProducts(RecordID, cbCurrency.Text, 0, 1000);
 end;
 
 procedure TMainF.actExitExecute(Sender: TObject);
@@ -169,16 +175,16 @@ begin
   inherited;
 end;
 
-function GetActiveCategoryID: Integer;
-begin
-  Result:=1;
-  //Result:=FrameMostCategory.GetActiveCategoryID;
-end;
-
 procedure TMainF.Notifier_RefreshAll;
+var
+  lvSelectedCategoryIndex: Integer;
+  lvSelectedCategoryID   : Integer;
 begin
-//  FrameMostCategory.RefreshCategory;
-//  FrameMostProducts.RefreshProducts(GetActiveCategoryID);
+  lvSelectedCategoryIndex:=FrameMostCategory.G1V1.Controller.FocusedRowIndex;
+  lvSelectedCategoryID:=FrameMostCategory.G1V1.Controller.FocusedRecord.Values[FrameMostCategory.G1V1CategoryID.Index];
+  FrameMostCategory.RefershCategory;
+  FrameMostProducts.RefreshProducts(lvSelectedCategoryID, cbCurrency.Text, 0, 1000);
+  FrameMostCategory.G1V1.DataController.FocusedRecordIndex:=lvSelectedCategoryIndex;
 end;
 
 procedure TMainF.Notifier_ExportReport(const aExportFmt: Integer);
