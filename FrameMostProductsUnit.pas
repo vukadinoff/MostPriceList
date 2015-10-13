@@ -62,6 +62,7 @@ begin
   G1V1.DataController.DataSource := dsProducts;
   G1V1.DataController.DetailKeyFieldNames:= 'ProductID';
   G1V1.OptionsView.ColumnAutoWidth:= True;
+  TcxGridExportMenuGroup.CreateMenuGroup(G1Popup, N3);
 end;
 
 function TFrameMostProducts.GetValueRange(const ValueType:integer): Integer;
