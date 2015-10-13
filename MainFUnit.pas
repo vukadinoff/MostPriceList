@@ -397,7 +397,7 @@ begin
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
-    //FrameMostProducts.RefreshProducts(RecordID,cbCurrency.Text,edMinValue.Value,edMaxValue.Value);
+    btnRefresh.Click;
   end;
 end;
 
