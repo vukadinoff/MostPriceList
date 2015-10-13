@@ -35,7 +35,7 @@ type
     property OnCatRecChange : TOnChangeEvent read FOnCatRecChange write FOnCatRecChange;
     constructor Create(AOwner:TComponent); override;
     procedure RefershCategory;
-    procedure TriggerCatRecEvent(const RecordID:integer);
+    procedure TriggerCatRecEvent(RecordID:integer);
     function GetCurrentCategoryName: string;
   end;
 
