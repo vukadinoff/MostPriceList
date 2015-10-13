@@ -3,7 +3,7 @@ unit FrameMostCategoryUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
   Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
   cxNavigator, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
@@ -11,67 +11,73 @@ uses
   mySQLDbTables, dxSkinsCore, dxSkinsDefaultPainters, dxSkinscxPCPainter;
 
 type
-  TOnChangeEvent = procedure(RecordID: Integer) of object;
+   TOnChangeEvent = procedure(RecordID:integer) of object;
 
 type
   TFrameMostCategory = class(TFrame)
-    G1               : TcxGrid;
-    G1V1             : TcxGridDBTableView;
-    G1L1             : TcxGridLevel;
-    G1V1CategoryID   : TcxGridDBColumn;
-    G1V1CategoryName : TcxGridDBColumn;
-
-    qryCategory      : TmySQLQuery;
-    dsCategory       : TDataSource;
-
+    G1V1: TcxGridDBTableView;
+    G1L1: TcxGridLevel;
+    G1: TcxGrid;
+    qryCategory: TmySQLQuery;
+    dsCategory: TDataSource;
+    G1V1CategoryID: TcxGridDBColumn;
+    G1V1CategoryName: TcxGridDBColumn;
     procedure G1V1FocusedRecordChanged(Sender: TcxCustomGridTableView;
-                                       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-                                       ANewItemRecordFocusingChanged: Boolean);
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+  private
+    { Private declarations }
+    FOnCatRecChange  : TOnChangeEvent;
+    function GetActiveRecordID: Integer;
   public
-    function GetActiveCategoryID : Integer;
+    { Public declarations }
+    property OnCatRecChange : TOnChangeEvent read FOnCatRecChange write FOnCatRecChange;
     constructor Create(AOwner:TComponent); override;
-    procedure RefreshCategory;
+    procedure RefershCategory;
+
+    procedure TriggerCatRecEvent(RecordID:integer);
   end;
 
 implementation
 
 {$R *.dfm}
-
 uses
-  MainFUnit;
+  MainFUnit,FrameMostProductsUnit;
 
 constructor TFrameMostCategory.Create(AOwner: TComponent);
 begin
   inherited;
-  RefreshCategory;
+  qryCategory.Database := MainF.dbMostPriceList;
+  dsCategory.DataSet:= qryCategory;
+  G1V1.DataController.DataSource := dsCategory;
+  G1V1.DataController.DetailKeyFieldNames:= 'CategoryID';
+  G1V1.OptionsView.ColumnAutoWidth:= True;
+
+  RefershCategory;
 end;
 
-procedure TFrameMostCategory.RefreshCategory;
+procedure TFrameMostCategory.RefershCategory;
 const
-  lcSQL = 'SELECT id AS CategoryID, name As CategoryName ' +
-          'FROM Category;                                ';
-var
-  qryQuery: TmySQLQuery;
+  lcSQL = 'SELECT id AS CategoryID, Name As CategoryName from Category';
 begin
-  qryQuery:=TmySQLQuery.Create(Self);
-  qryQuery.Database:=MainF.dbMostPriceList;
-  dsCategory.DataSet:=qryQuery;
-
-  if (MainF.dbMostPriceList.Connected) then
+  if MainF.dbMostPriceList.Connected then
   begin
-    qryQuery.Active:=False;
-    qryQuery.SQL.Text := lcSQL;
     try
-      qryQuery.Open;
-    finally end;
-  end;
+      qryCategory.Active:= False;
+      qryCategory.SQL.Text := lcSQL;
+      qryCategory.Active:= True;
+    finally
+
+    end;
+  end
+  else
+    ShowMessage('Няма връзка с базата данни');
 end;
 
-function TFrameMostCategory.GetActiveCategoryID: Integer;
+function TFrameMostCategory.GetActiveRecordID: Integer;
 begin
   Result:=0;
-  If ((qryCategory.Active) and (G1V1.Controller.FocusedRecord <> nil) and
-      (G1V1.Controller.FocusedRecord is TcxGridDataRow)) then
+  If(qryCategory.Active)and(G1V1.Controller.FocusedRecord <> nil)and(G1V1.Controller.FocusedRecord is TcxGridDataRow)then
     Result:=(G1V1.Controller.FocusedRecord.Values[G1V1CategoryID.Index]);
 end;
 
@@ -80,7 +86,15 @@ procedure TFrameMostCategory.G1V1FocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord;
   ANewItemRecordFocusingChanged: Boolean);
 begin
-  MainF.ActiveCategoryID:=GetActiveRecordID;
+  //FrameMostProducts.RefreshProducts(GetActiveRecordID,1.5);
+  //send message to main form
+  TriggerCatRecEvent(GetActiveRecordID);
+end;
+
+procedure TFrameMostCategory.TriggerCatRecEvent(RecordID:integer);
+begin
+    if Assigned(FOnCatRecChange) then
+      FOnCatRecChange(RecordID);
 end;
 
 end.

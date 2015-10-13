@@ -2,7 +2,7 @@ object MainF: TMainF
   Left = 197
   Top = 124
   Width = 1032
-  Height = 785
+  Height = 733
   Caption = #1062#1077#1085#1086#1074#1072' '#1083#1080#1089#1090#1072' '#1085#1072' '#1087#1088#1086#1076#1091#1082#1090#1080#1090#1077' '#1085#1072' Most Computers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,16 +18,16 @@ object MainF: TMainF
   TextHeight = 13
   object pnlG1Pad: TPanel
     Left = 0
-    Top = 42
+    Top = 46
     Width = 329
-    Height = 705
+    Height = 649
     Align = alLeft
     TabOrder = 0
     object pnlG1: TPanel
       Left = 1
       Top = 47
       Width = 327
-      Height = 657
+      Height = 601
       Align = alClient
       TabOrder = 0
       TabStop = True
@@ -43,17 +43,18 @@ object MainF: TMainF
   end
   object pnlG2Pad: TPanel
     Left = 337
-    Top = 42
+    Top = 46
     Width = 679
-    Height = 705
+    Height = 649
     Align = alClient
     TabOrder = 5
     object pnlG2: TPanel
       Left = 1
       Top = 48
       Width = 677
-      Height = 656
+      Height = 600
       Align = alClient
+      Caption = 'rate'
       TabOrder = 0
       TabStop = True
     end
@@ -86,9 +87,9 @@ object MainF: TMainF
   end
   object cxSplitter: TcxSplitter
     Left = 329
-    Top = 42
+    Top = 46
     Width = 8
-    Height = 705
+    Height = 649
     HotZoneClassName = 'TcxXPTaskBarStyle'
     HotZone.SizePercent = 52
     Control = pnlG1Pad
@@ -118,10 +119,9 @@ object MainF: TMainF
       Caption = 'actExport'
       ImageIndex = 81
     end
-    object actRates: TAction
-      Caption = 'actRates'
-      ImageIndex = 36
-      OnExecute = actRatesExecute
+    object Action1: TAction
+      Caption = 'Action1'
+      OnExecute = Action1Execute
     end
   end
   object BM1: TdxBarManager
@@ -144,7 +144,7 @@ object MainF: TMainF
     DockControlHeights = (
       0
       0
-      42
+      46
       0)
     object BM1Bar1: TdxBar
       AllowClose = False
@@ -188,7 +188,7 @@ object MainF: TMainF
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'btnExport'
+          ItemName = 'btnExp'
         end>
       OneOnRow = True
       Row = 0
@@ -208,6 +208,12 @@ object MainF: TMainF
       SyncImageIndex = False
       ImageIndex = 4
     end
+    object btnExport: TdxBarLargeButton
+      Caption = 'Export...'
+      Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 81
+    end
     object btnOpen: TdxBarLargeButton
       Action = actOpen
       Caption = 'Open...'
@@ -223,16 +229,103 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Action = actRates
-      Caption = 'Rates...'
+      Action = Action1
       Category = 0
     end
-    object btnExport: TdxBarLargeButton
+    object dxBarSubItem1: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object btnExp: TdxBarSubItem
+      Action = actExport
       Caption = 'Export...'
       Category = 0
-      Hint = 'Export'
-      Visible = ivAlways
       LargeImageIndex = 81
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'btnExpToExcel'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToHTML'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToXML'
+        end
+        item
+          Visible = True
+          ItemName = 'btnExpToTXT'
+        end>
+    end
+    object dxBarSubItem3: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarSubItem4: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object btnExpToExcel: TdxBarButton
+      Tag = 1
+      Caption = 'MS Excel'
+      Category = 0
+      Hint = 'MS Excel'
+      Visible = ivAlways
+      ImageIndex = 81
+    end
+    object dxBarButton2: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarListItem1: TdxBarListItem
+      Caption = 'New Item'
+      Category = 0
+      Visible = ivAlways
+      Items.Strings = (
+        '1'
+        '2'
+        '3'
+        '4')
+    end
+    object dxBarSeparator1: TdxBarSeparator
+      Caption = 'New Separator'
+      Category = 0
+      Hint = 'New Separator'
+      Visible = ivAlways
+    end
+    object btnExpToHTML: TdxBarButton
+      Tag = 2
+      Caption = 'HTML'
+      Category = 0
+      Hint = 'HTML'
+      Visible = ivAlways
+      ImageIndex = 81
+    end
+    object btnExpToXML: TdxBarButton
+      Tag = 3
+      Caption = 'XML'
+      Category = 0
+      Hint = 'XML'
+      Visible = ivAlways
+      ImageIndex = 81
+    end
+    object btnExpToTXT: TdxBarButton
+      Tag = 4
+      Caption = 'Text file'
+      Category = 0
+      Hint = 'Text file'
+      Visible = ivAlways
+      ImageIndex = 81
     end
   end
   object OpenDialog: TOpenDialog
@@ -4605,6 +4698,9 @@ object MainF: TMainF
       C007C0003FFFE007C00FC009FFFFF81F00000000000000000000000000000000
       000000000000}
   end
+  object PrintDialog: TPrintDialog
+    Left = 416
+  end
   object dbMostPriceList: TmySQLDatabase
     Connected = True
     DatabaseName = 'most_price_list'
@@ -4623,7 +4719,7 @@ object MainF: TMainF
     Left = 499
   end
   object XMLDocument: TXMLDocument
-    Left = 889
+    Left = 873
     Top = 1
     DOMVendorDesc = 'MSXML'
   end
@@ -4635,6 +4731,6 @@ object MainF: TMainF
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 954
+    Left = 930
   end
 end

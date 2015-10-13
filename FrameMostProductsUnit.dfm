@@ -67,12 +67,11 @@ object FrameMostProducts: TFrameMostProducts
     end
   end
   object dsProducts: TDataSource
-    DataSet = qryProducts
+    DataSet = DM.tblCrossRates
     Left = 120
     Top = 72
   end
   object qryProducts: TmySQLQuery
-    Database = MainF.dbMostPriceList
     Left = 40
     Top = 72
   end
