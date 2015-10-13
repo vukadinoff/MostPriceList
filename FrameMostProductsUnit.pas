@@ -43,7 +43,7 @@ type
     constructor Create(AOwner:TComponent); override;
     procedure RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
     procedure Print(CurrentCategory:string);
-    function GetValueRange(const ValueType:Integer) : Integer;
+    function GetValueRange(const ValueType:Integer;CurrCode:string) : Integer;
 end;
 
 implementation
@@ -65,27 +65,34 @@ begin
   TcxGridExportMenuGroup.CreateMenuGroup(G1Popup, N3);
 end;
 
-function TFrameMostProducts.GetValueRange(const ValueType:integer): Integer;
+function TFrameMostProducts.GetValueRange(const ValueType:integer;CurrCode:string): Integer;
 var
   qryRange : TmySQLQuery;
   lvMaxPrice1, lvMaxPrice2,lvMinPrice1,lvMinPrice2:Double;
+  lvsReportCurrency: string;
+const
+  lcSQLMin = 'SELECT min((p.price_1)*(SELECT cross_rate FROM CrossRates              '+
+             'WHERE currency_pair = CONCAT(p.currency_code, %0:s))) AS MinPrice1,    '+
+             'min((p.price_2)*(SELECT cross_rate FROM CrossRates                     '+
+             'WHERE currency_pair = CONCAT(p.currency_code, %0:s))) AS MinPrice2 from Products p;';
+
+  lcSQLMax = 'SELECT max((p.price_1)*(SELECT cross_rate FROM CrossRates              '+
+             'WHERE currency_pair = CONCAT(p.currency_code, %0:s))) AS MaxPrice1,    '+
+             'max((p.price_2)*(SELECT cross_rate FROM CrossRates                     '+
+             'WHERE currency_pair = CONCAT(p.currency_code, %0:s))) AS MaxPrice2 from Products p;';
 begin
   Result:= 0;
+  lvsReportCurrency:='''/' + CurrCode + '''';
   Try
     qryRange:= TmySQLQuery.Create(Self);
     qryRange.Database:= MainF.dbMostPriceList;
     if ValueType = MAX then
     begin
       qryRange.Close;
-      qryRange.SQL.Text:= 'SELECT max(Price_1) AS MaxPrice1 from Products;';
+      qryRange.SQL.Text:= Format(lcSQLMax,[lvsReportCurrency]);
       qryRange.Open;
       qryRange.First;
       lvMaxPrice1:= qryRange.FieldByName('MaxPrice1').AsFloat;
-
-      qryRange.Close;
-      qryRange.SQL.Text:= 'SELECT max(Price_2) AS MaxPrice2 from Products;';
-      qryRange.Open;
-      qryRange.First;
       lvMaxPrice2:= qryRange.FieldByName('MaxPrice2').AsFloat;
 
       if lvMaxPrice1>=lvMaxPrice2 then
@@ -97,15 +104,10 @@ begin
       if ValueType = MIN then
       begin
         qryRange.Close;
-        qryRange.SQL.Text:= 'SELECT min(Price_1) AS MinPrice1 from Products;';
+        qryRange.SQL.Text:= Format(lcSQLMin,[lvsReportCurrency]);
         qryRange.Open;
         qryRange.First;
         lvMinPrice1:= qryRange.FieldByName('MinPrice1').AsFloat;
-
-        qryRange.Close;
-        qryRange.SQL.Text:= 'SELECT min(Price_2) AS MinPrice2 from Products;';
-        qryRange.Open;
-        qryRange.First;
         lvMinPrice2:= qryRange.FieldByName('MinPrice2').AsFloat;
 
         if lvMinPrice1<=lvMinPrice2 then
@@ -189,8 +191,12 @@ const
           '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s))*(1.2) AS Price2VAT  ' +
 	        'FROM Products p                                                                            ' +
 	        'INNER JOIN Category c ON (c.id = p.category_id)					'+
-  			'WHERE c.id = %0:d AND ((Price_1 BETWEEN %1:f AND %2:f) 			'+CRLF+
- 	        'OR (Price_2 BETWEEN %1:f AND %2:f));';
+  			  'WHERE c.id = %0:d AND (((p.price_1)*(SELECT cross_rate                                     ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s)) BETWEEN %1:f AND %2:f) 			'+CRLF+
+ 	        'OR ((p.price_2)*(SELECT cross_rate                                                       ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s)) BETWEEN %1:f AND %2:f));';
 var
   lvsReportCurrency: string;
 begin

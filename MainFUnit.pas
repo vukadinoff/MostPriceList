@@ -110,6 +110,7 @@ type
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);
+    procedure InitPriceRangeEdits;
   public
     procedure CatRecChange(RecordID:integer);
 end;
@@ -151,9 +152,7 @@ begin
   FrameMostProducts.Parent := pnlG2;
   FrameMostProducts.Align := alClient;
 
-  edMinValue.Value:= FrameMostProducts.GetValueRange(MIN);
-  edMaxValue.Value:= FrameMostProducts.GetValueRange(MAX);
-  
+  InitPriceRangeEdits;
   FrameMostCategory.OnCatRecChange:= MainF.CatRecChange;
   FrameMostCategory.TriggerCatRecEvent(1);
 end;
@@ -397,6 +396,7 @@ begin
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
+    InitPriceRangeEdits;
     btnRefresh.Click;
   end;
 end;
@@ -417,6 +417,12 @@ end;
 procedure TMainF.Action1Execute(Sender: TObject);
 begin
 //  ExchangeRatesF.ShowModal;
+end;
+
+procedure TMainF.InitPriceRangeEdits;
+begin
+  edMinValue.Value:= FrameMostProducts.GetValueRange(MIN,cbCurrency.Text);
+  edMaxValue.Value:= FrameMostProducts.GetValueRange(MAX,cbCurrency.Text);
 end;
 
 initialization
