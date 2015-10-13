@@ -15,13 +15,14 @@ type
 
 type
   TFrameMostCategory = class(TFrame)
-    G1: TcxGrid;
     G1V1: TcxGridDBTableView;
     G1L1: TcxGridLevel;
-    G1V1CategoryID: TcxGridDBColumn;
-    G1V1CategoryName: TcxGridDBColumn;
+    G1: TcxGrid;
+
     qryCategory: TmySQLQuery;
     dsCategory: TDataSource;
+    G1V1CategoryID: TcxGridDBColumn;
+    G1V1CategoryName: TcxGridDBColumn;
     procedure G1V1FocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
@@ -71,7 +72,7 @@ begin
     end;
   end
   else
-    ShowMessage('Няма връзка с базата данни');
+    ShowMessage('ГЌГїГ¬Г  ГўГ°ГєГ§ГЄГ  Г± ГЎГ Г§Г ГІГ  Г¤Г Г­Г­ГЁ');
 end;
 
 function TFrameMostCategory.GetActiveRecordID: Integer;
