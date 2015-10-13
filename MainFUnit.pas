@@ -30,6 +30,8 @@ type
     actOpen        : TAction;
     actRefresh     : TAction;
     actPrint       : TAction;
+    actExport      : TAction;
+    Action1        : TAction;
 
     BM1            : TdxBarManager;
     BM1Bar1        : TdxBar;
@@ -68,8 +70,8 @@ type
     pnlG2Filters   : TPanel;
     lblCbCurrency  : TLabel;
     cbCurrency     : TcxComboBox;
-    dsRates: TDataSource;
-    qryRates: TmySQLQuery;
+    dsRates        : TDataSource;
+    qryRates       : TmySQLQuery;
     lbMinValue: TcxLabel;
     lbMaxValue: TcxLabel;
     edMinValue: TcxObjectSpinEdit;
@@ -84,9 +86,9 @@ type
     procedure actOpenExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
-    procedure actRatesExecute(Sender: TObject);
     procedure cbCurrencyClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
+	procedure Action1Execute(Sender: TObject);
   private
     FrameMostProducts: TFrameMostProducts; //Frame instance variable end;
     FrameMostCategory: TFrameMostCategory; //Frame instance variable end;
@@ -99,11 +101,12 @@ type
     procedure DropTablesFromDB;
     procedure CreateTablesInDB;
     procedure GetXMLData(fileName: TFileName);
-    function PriceParser(sPrice: string): string;
-    function CurrencyParser(sPrice: string): string;
     function IsCodeOnHand(sCode: string): Boolean;
     procedure AddNewCurrency(sCode: string);
   public
+    function PriceParser(sPrice: string): string;
+    function CurrencyParser(sPrice: string): string;
+
     procedure Notifier_RefreshAll;
     procedure Notifier_PrintReport;
     procedure Notifier_ExportReport(const aExportFmt:Integer);
@@ -186,11 +189,6 @@ begin
     GetXMLData(OpenDialog.FileName);
   end;
   FrameMostCategory.RefershCategory;
-end;
-
-procedure TMainF.actRatesExecute(Sender: TObject);
-begin
-  ExchangeRatesF.ShowModal;
 end;
 
 procedure TMainF.actRefreshExecute(Sender: TObject);
@@ -395,10 +393,11 @@ end;
 
 procedure TMainF.cbCurrencyClick(Sender: TObject);
 begin
-  if not (FrameMostProducts = nil) then
+  if (Assigned(FrameMostProducts)) then
   begin
     FrameMostProducts.G1V1.Columns[3].Visible := (cbCurrency.Text = 'BGN');
     FrameMostProducts.G1V1.Columns[5].Visible := (cbCurrency.Text = 'BGN');
+    //FrameMostProducts.RefreshProducts(RecordID,cbCurrency.Text,edMinValue.Value,edMaxValue.Value);
   end;
 end;
 
@@ -413,6 +412,11 @@ begin
       4: CommonExports.ExportGridTo(FrameMostProducts.G1, cesTXT);
     end;
   end;
+end;
+
+procedure TMainF.Action1Execute(Sender: TObject);
+begin
+//  ExchangeRatesF.ShowModal;
 end;
 
 initialization

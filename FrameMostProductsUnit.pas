@@ -50,7 +50,7 @@ implementation
 
 {$R *.dfm}
 uses
-  MainFUnit,MLDMS_CommonExportsUnit;
+  MainFUnit, MLDMS_CommonExportsUnit{, DataModule};
 { TFrameMostProducts }
 
 
@@ -172,25 +172,34 @@ end;
 
 procedure TFrameMostProducts.RefreshProducts(const CategoryID:Integer;const CurrCode:string;const MinValue:Double; MaxValue:Double);
 const
-  lcSQL=  'SELECT p.id AS ProductID,                             '+CRLF+
-	        'p.name AS ProductName,                                '+CRLF+
-	        'p.price_1 AS Price1,                                  '+CRLF+
-	        '(p.price_1)*(1.2) AS Price1VAT,                       '+CRLF+
-	        'p.price_2 AS Price2,                                  '+CRLF+
-	        '(p.price_2)*(1.2) AS Price2VAT                        '+CRLF+
-	        'FROM Products p                                       '+CRLF+
-	        'JOIN Category c ON (c.id = p.category_id)             '+CRLF+
-          'WHERE c.id = %0:d AND ((Price_1 BETWEEN %1:f AND %2:f) '+CRLF+
+  lcSQL= 'SELECT p.id AS ProductID,                                                                  ' +
+	        '       p.name AS ProductName,                                                              ' +
+          '       p.currency_code,                                                                    ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s)) AS Price1,          ' +
+	        '       (p.price_1)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s))*(1.2) AS Price1VAT, ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                       ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s)) AS Price2,          ' +
+	        '       (p.price_2)*(SELECT cross_rate                                                      ' +
+          '                    FROM CrossRates                                                        ' +
+          '                    WHERE currency_pair = CONCAT(p.currency_code, %3:s))*(1.2) AS Price2VAT  ' +
+	        'FROM Products p                                                                            ' +
+	        'INNER JOIN Category c ON (c.id = p.category_id)					'+
+  			'WHERE c.id = %0:d AND ((Price_1 BETWEEN %1:f AND %2:f) 			'+CRLF+
  	        'OR (Price_2 BETWEEN %1:f AND %2:f));';
 var
-  i: Integer;
-  c: TcxGridDBColumn;
+  lvsReportCurrency: string;
 begin
   if MainF.dbMostPriceList.Connected then
   begin
     Screen.Cursor := crSQLWait;
     qryProducts.Active:= False;
-    qryProducts.SQL.Text:= Format(lcSQL,[CategoryID,MinValue,MaxValue]);
+    lvsReportCurrency:='''/' + MainF.cbCurrency.Text + '''';
+    qryProducts.SQL.Text:= Format(lcSQL,[CategoryID,MinValue,MaxValue,lvsReportCurrency]);
     try
       qryProducts.Open;
     finally end;

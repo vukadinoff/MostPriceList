@@ -54,6 +54,7 @@ object MainF: TMainF
       Width = 677
       Height = 604
       Align = alClient
+      Caption = 'rate'
       TabOrder = 0
       TabStop = True
     end
@@ -160,6 +161,10 @@ object MainF: TMainF
       Caption = 'actExport'
       ImageIndex = 81
     end
+    object Action1: TAction
+      Caption = 'Action1'
+      OnExecute = Action1Execute
+    end
   end
   object BM1: TdxBarManager
     AllowReset = False
@@ -206,11 +211,6 @@ object MainF: TMainF
           BeginGroup = True
           Visible = True
           ItemName = 'btnOpen'
-        end
-        item
-          BeginGroup = True
-          Visible = True
-          ItemName = 'btnRates'
         end
         item
           BeginGroup = True
@@ -266,10 +266,8 @@ object MainF: TMainF
       LargeImageIndex = 11
     end
     object btnRates: TdxBarLargeButton
-      Caption = 'Rates...'
+      Action = Action1
       Category = 0
-      Visible = ivAlways
-      LargeImageIndex = 36
     end
     object dxBarSubItem1: TdxBarSubItem
       Caption = 'New SubItem'
@@ -4787,18 +4785,18 @@ object MainF: TMainF
     Left = 499
   end
   object XMLDocument: TXMLDocument
-    Left = 889
+    Left = 873
     Top = 1
     DOMVendorDesc = 'MSXML'
   end
   object dsRates: TDataSource
     DataSet = qryRates
-    Left = 842
+    Left = 818
   end
   object qryRates: TmySQLQuery
     Database = dbMostPriceList
     SQL.Strings = (
       'SELECT * FROM ExchangeRates;')
-    Left = 914
+    Left = 930
   end
 end

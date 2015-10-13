@@ -88,6 +88,7 @@ object FrameMostProducts: TFrameMostProducts
     object Printer1G1: TdxGridReportLink
       Active = True
       Component = G1
+      PageNumberFormat = pnfNumeral
       PrinterPage.DMPaper = 9
       PrinterPage.Footer = 6350
       PrinterPage.Header = 6350
@@ -99,7 +100,8 @@ object FrameMostProducts: TFrameMostProducts
       PrinterPage.PageSize.Y = 297000
       PrinterPage._dxMeasurementUnits_ = 0
       PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 42289.393049456020000000
+      ReportDocument.CreationDate = 42290.540905266210000000
+      AssignedFormatValues = [fvDate, fvTime, fvPageNumber]
       OptionsSize.AutoWidth = True
       OptionsView.Footers = False
       OptionsView.Caption = False

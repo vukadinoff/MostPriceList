@@ -8,11 +8,12 @@ uses
   MLDMS_CommonExportsUnit in 'Units\MLDMS_CommonExportsUnit.pas',
   FrameMostProductsUnit in 'FrameMostProductsUnit.pas' {FrameMostProducts: TFrame};
   //DataUnit in 'DataUnit.pas' {DataUnitF};
-
+	//DataModule in 'DataModule.pas' {DM: TDataModule};
 {$R *.res}
 
 begin
   Application.Initialize;
+  //Application.CreateForm(TDM, DM);
   Application.CreateForm(TMainF, MainF);
   Application.CreateForm(TExchangeRatesF, ExchangeRatesF);
   //Application.CreateForm(TDataUnitF, DataUnitF);
