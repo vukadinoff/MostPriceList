@@ -1,17 +1,18 @@
 object FrameMostProducts: TFrameMostProducts
   Left = 0
   Top = 0
-  Width = 320
-  Height = 240
+  Width = 579
+  Height = 560
   TabOrder = 0
   object G1: TcxGrid
     Left = 0
     Top = 0
-    Width = 320
-    Height = 240
+    Width = 579
+    Height = 560
     Align = alClient
     TabOrder = 0
     object G1V1: TcxGridDBTableView
+      PopupMenu = G1Popup
       Navigator.Buttons.CustomButtons = <>
       DataController.DataSource = dsProducts
       DataController.DetailKeyFieldNames = 'ProductID'
@@ -74,5 +75,43 @@ object FrameMostProducts: TFrameMostProducts
   object qryProducts: TmySQLQuery
     Left = 40
     Top = 72
+  end
+  object qryProductsUpdate: TmySQLUpdateSQL
+    Left = 40
+    Top = 128
+  end
+  object Printer1: TdxComponentPrinter
+    CurrentLink = Printer1G1
+    Version = 0
+    Left = 176
+    Top = 72
+    object Printer1G1: TdxGridReportLink
+      Active = True
+      Component = G1
+      PrinterPage.DMPaper = 9
+      PrinterPage.Footer = 6350
+      PrinterPage.Header = 6350
+      PrinterPage.Margins.Bottom = 12700
+      PrinterPage.Margins.Left = 12700
+      PrinterPage.Margins.Right = 12700
+      PrinterPage.Margins.Top = 12700
+      PrinterPage.PageSize.X = 210000
+      PrinterPage.PageSize.Y = 297000
+      PrinterPage._dxMeasurementUnits_ = 0
+      PrinterPage._dxLastMU_ = 2
+      ReportDocument.CreationDate = 42289.393049456020000000
+      OptionsSize.AutoWidth = True
+      OptionsView.Footers = False
+      OptionsView.Caption = False
+      OptionsView.FilterBar = False
+      BuiltInReportLink = True
+    end
+  end
+  object G1Popup: TPopupMenu
+    Left = 244
+    Top = 72
+    object N3: TMenuItem
+      Caption = '-'
+    end
   end
 end
