@@ -73,6 +73,7 @@ object FrameMostProducts: TFrameMostProducts
     Top = 72
   end
   object qryProducts: TmySQLQuery
+    Database = MainF.dbMostPriceList
     Left = 40
     Top = 72
   end
@@ -88,7 +89,6 @@ object FrameMostProducts: TFrameMostProducts
     object Printer1G1: TdxGridReportLink
       Active = True
       Component = G1
-      PageNumberFormat = pnfNumeral
       PrinterPage.DMPaper = 9
       PrinterPage.Footer = 6350
       PrinterPage.Header = 6350
@@ -100,8 +100,7 @@ object FrameMostProducts: TFrameMostProducts
       PrinterPage.PageSize.Y = 297000
       PrinterPage._dxMeasurementUnits_ = 0
       PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 42290.540905266210000000
-      AssignedFormatValues = [fvDate, fvTime, fvPageNumber]
+      ReportDocument.CreationDate = 42290.711193842600000000
       OptionsSize.AutoWidth = True
       OptionsView.Footers = False
       OptionsView.Caption = False

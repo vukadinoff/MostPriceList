@@ -15,13 +15,13 @@ type
 
 type
   TFrameMostCategory = class(TFrame)
+    G1: TcxGrid;
     G1V1: TcxGridDBTableView;
     G1L1: TcxGridLevel;
-    G1: TcxGrid;
-    qryCategory: TmySQLQuery;
-    dsCategory: TDataSource;
     G1V1CategoryID: TcxGridDBColumn;
     G1V1CategoryName: TcxGridDBColumn;
+    qryCategory: TmySQLQuery;
+    dsCategory: TDataSource;
     procedure G1V1FocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
@@ -34,7 +34,7 @@ type
     property OnCatRecChange : TOnChangeEvent read FOnCatRecChange write FOnCatRecChange;
     constructor Create(AOwner:TComponent); override;
     procedure RefershCategory;
-    procedure TriggerCatRecEvent(RecordID:integer);
+    procedure TriggerCatRecEvent(const RecordID:integer);
     function GetCurrentCategoryName: string;
   end;
 
@@ -60,7 +60,7 @@ procedure TFrameMostCategory.RefershCategory;
 const
   lcSQL = 'SELECT id AS CategoryID, Name As CategoryName from Category';
 begin
-  if MainF.dbMostPriceList.Connected then
+  if (MainF.dbMostPriceList.Connected) then
   begin
     try
       qryCategory.Active:= False;
@@ -86,12 +86,10 @@ procedure TFrameMostCategory.G1V1FocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord;
   ANewItemRecordFocusingChanged: Boolean);
 begin
-  //FrameMostProducts.RefreshProducts(GetActiveRecordID,1.5);
-  //send message to main form
   TriggerCatRecEvent(GetActiveRecordID);
 end;
 
-procedure TFrameMostCategory.TriggerCatRecEvent(RecordID:integer);
+procedure TFrameMostCategory.TriggerCatRecEvent(const RecordID:integer);
 begin
     if Assigned(FOnCatRecChange) then
       FOnCatRecChange(RecordID);

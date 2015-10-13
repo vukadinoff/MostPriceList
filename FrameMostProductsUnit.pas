@@ -14,7 +14,13 @@ uses
   dxPSPrVwStd, dxPSPrVwAdv, dxPSPrVwRibbon, dxPScxPageControlProducer,
   dxPScxGridLnk, dxPScxGridLayoutViewLnk, dxPScxEditorProducers,
   dxPScxExtEditorProducers, dxPSCore, dxPScxCommon,cxCurrencyEdit,
-dxSkinsDefaultPainters, dxSkinscxPCPainter;
+  dxSkinsDefaultPainters, dxSkinscxPCPainter;
+
+
+
+
+
+
 
 type
   TFrameMostProducts = class(TFrame)
@@ -50,9 +56,7 @@ implementation
 
 {$R *.dfm}
 uses
-  MainFUnit, MLDMS_CommonExportsUnit{, DataModule};
-{ TFrameMostProducts }
-
+  MainFUnit,DataModule, MLDMS_CommonExportsUnit ;
 
 constructor TFrameMostProducts.Create(AOwner: TComponent);
 begin
@@ -211,9 +215,7 @@ begin
     finally end;
     qryProducts.Active:= True;
     Screen.Cursor := crDefault;
-  end
-  else
-    ShowMessage('Няма връзка с базата данни');
+  end;
 end;
 
 end.
