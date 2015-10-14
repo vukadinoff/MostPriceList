@@ -87,12 +87,12 @@ object ExchangeRatesF: TExchangeRatesF
       end>
     StoreDefs = True
     TableName = 'ExchangeRates'
-    Left = 288
+    Left = 40
     Top = 152
   end
   object dsDataSource: TDataSource
     DataSet = tblExchangeRates
-    Left = 376
+    Left = 136
     Top = 152
   end
 end
