@@ -46,7 +46,7 @@ object FrameMostCategory: TFrameMostCategory
   end
   object dsCategory: TDataSource
     DataSet = qryCategory
-    Left = 80
-    Top = 64
+    Left = 568
+    Top = 48
   end
 end

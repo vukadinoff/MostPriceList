@@ -15,13 +15,14 @@ type
 
 type
   TFrameMostCategory = class(TFrame)
-    G1: TcxGrid;
     G1V1: TcxGridDBTableView;
     G1L1: TcxGridLevel;
-    G1V1CategoryID: TcxGridDBColumn;
-    G1V1CategoryName: TcxGridDBColumn;
+    G1: TcxGrid;
+
     qryCategory: TmySQLQuery;
     dsCategory: TDataSource;
+    G1V1CategoryID: TcxGridDBColumn;
+    G1V1CategoryName: TcxGridDBColumn;
     procedure G1V1FocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
@@ -34,7 +35,7 @@ type
     property OnCatRecChange : TOnChangeEvent read FOnCatRecChange write FOnCatRecChange;
     constructor Create(AOwner:TComponent); override;
     procedure RefershCategory;
-    procedure TriggerCatRecEvent(const RecordID:integer);
+    procedure TriggerCatRecEvent(RecordID:integer);
     function GetCurrentCategoryName: string;
   end;
 
@@ -71,7 +72,7 @@ begin
     end;
   end
   else
-    ShowMessage('ÕˇÏ‡ ‚˙ÁÍ‡ Ò ·‡Á‡Ú‡ ‰‡ÌÌË');
+    ShowMessage('√ç√ø√¨√† √¢√∞√∫√ß√™√† √± √°√†√ß√†√≤√† √§√†√≠√≠√®');
 end;
 
 function TFrameMostCategory.GetActiveRecordID: Integer;
