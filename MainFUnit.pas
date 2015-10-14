@@ -154,7 +154,7 @@ begin
 
   InitPriceRangeEdits;
   FrameMostCategory.OnCatRecChange:= MainF.CatRecChange;
-  FrameMostCategory.TriggerCatRecEvent(1);
+  btnRefresh.Click;
 end;
 
 procedure TMainF.FormActivate(Sender: TObject);
